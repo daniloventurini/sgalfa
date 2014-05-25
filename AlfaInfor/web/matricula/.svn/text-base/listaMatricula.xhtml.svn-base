@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layoutAtendimento.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalho" >
+
+        </div>
+        <div id="menuCabecalho">
+
+            <oi:include src="/menu.xhtml"/>
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+
+            <center><p:graphicText value="Lista de Matrículas" fontSize="33" fontName="Verdana" fontStyle="italic" /></center>
+
+            <h:form prependId="false">
+                <p:commandLink actionListener="#{matriculaController.prepararAdicionar}" action="cadastraMatricula" ajax="false" >
+                    <p:graphicImage value="/css/imagens/novo.png"/>
+                </p:commandLink>
+                <p:message id="message" for="tabela"/>
+                <p:dataTable id="tabela" widgetVar="teste" var="matricula" value="#{matriculaController.listarMatriculas}" style="border: 10px"  paginator="true" rows="5" emptyMessage="Matriculas não encontradas!">
+
+
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Busca:" />
+                            <p:inputText id="globalFilter" onkeyup="teste.filter()" size="70" />
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column filterBy="#{matricula.aluno.nome}" >
+                        <f:facet name="header">
+                            <h:outputText value="Nome"/>
+                        </f:facet>
+                        <h:outputText value="#{matricula.aluno.nome}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Data"/>
+                        </f:facet>
+                        <h:outputText value="#{matricula.dataMatricula}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column filterBy="#{matricula.dia}">
+                        <f:facet name="header">
+                            <h:outputText value="Turma"/>
+                        </f:facet>
+                        <h:outputText value="#{matricula.dia}" >
+
+                        </h:outputText>
+                    </p:column>
+                    <p:column filterBy="#{matricula.status}">
+                        <f:facet name="header">
+                            <h:outputText value="Status"/>
+                        </f:facet>
+                        <h:outputText value="#{matricula.status}" >
+
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="text-align: center">
+                        <f:facet name="header">
+                            <h:outputText value="Opções" />
+                        </f:facet>
+                        <p:commandLink title="Alterar" actionListener="#{matriculaController.alterar}" action="cadastraMatricula" ajax="false">
+                            <p:graphicImage value="/css/imagens/altera.png"/>
+                            <f:attribute name="matricula" value="#{matricula}"/>
+                        </p:commandLink>
+
+
+                    </p:column>
+                </p:dataTable>
+
+
+            </h:form>
+
+
+        </div>
+        <h:form>
+            <p:confirmDialog header="Remover Plano" message="Confirma a exclusão?" widgetVar="dialogRemover">
+
+                <p:commandButton value="Sim"  actionListener="#{planoController.excluirPlano}" update="tabela" oncomplete="dialogRemover.hide()" />
+                <p:commandButton value="Não" onclick="dialogRemover.hide()" />
+
+
+            </p:confirmDialog>
+
+
+        </h:form>
+        <h:form>
+            <p:confirmDialog header="Remover Matricula" message="Confirma a exclusão?" widgetVar="dialogRemover" showEffect="bounce" hideEffect="explode" height="200">
+
+                <p:commandButton value="Sim"  actionListener="#{matriculaController.excluir}" action="listaMatricula" update="tabela message" oncomplete="dialogRemover.hide()" />
+                <p:commandButton value="Não" onclick="dialogRemover.hide()" />
+
+
+            </p:confirmDialog>
+
+
+        </h:form>
+
+    </h:body>
+</html>

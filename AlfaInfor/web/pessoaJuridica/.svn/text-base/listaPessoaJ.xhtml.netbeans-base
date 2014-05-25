@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layout.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalho" >
+
+        </div>
+        <div id="menuCabecalho">
+
+            <oi:include src="/menu.xhtml"/>
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+
+            <center><p:graphicText value="Lista de Pessoas Jurídicas" fontSize="33" fontName="Verdana" fontStyle="italic" /></center>
+
+            <h:form prependId="false" >
+                <p:commandLink actionListener="#{pessoaJuridicaController.prepararAdicionarPessoaJuridica}" action="cadastraPessoaJ" ajax="false" >
+                    <p:graphicImage value="/css/imagens/novo.png"/>
+                </p:commandLink>
+                <p:message id="message" for="tabela"/>
+                <p:dataTable id="tabela" widgetVar="teste" var="pessoaJuridica" value="#{pessoaJuridicaController.listarPessoaJuridicas}" style="border: 10px" emptyMessage="Nenhum Registro Encontrado" rows="5" paginator="true">
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Busca:"/>
+                            <p:inputText id="globalFilter" onkeyup="teste.filter()" size="70"/>
+                        </p:outputPanel>
+
+
+                    </f:facet>
+
+                    <p:column  sortBy="#{pessoaJuridica.nome}" filterBy="#{pessoaJuridica.nome}"  >
+                        <f:facet name="header">
+                            <h:outputText value="Nome"/>
+                        </f:facet>
+                        <h:outputText value="#{pessoaJuridica.nome}" />
+                    </p:column >
+                    <p:column filterBy="#{pessoaJuridica.cnpj}" sortBy="#{pessoaJuridica.cnpj}">
+                        <f:facet name="header">
+                            <h:outputText value="CNPJ"/>
+                        </f:facet>
+                        <h:outputText value="#{pessoaJuridica.cnpj}"/>
+                    </p:column>
+                    <p:column filterBy="#{pessoaJuridica.inscricao}" sortBy="#{pessoaJuridica.inscricao}">
+                        <f:facet name="header">
+                            <h:outputText value="Inscrição Estadual"/>
+                        </f:facet>
+                        <h:outputText value="#{pessoaJuridica.inscricao}"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Opções"/>
+
+                        </f:facet>
+                        <p:commandLink title="Alterar" actionListener="#{pessoaJuridicaController.prepararAlterarPessoaJuridica}" action="cadastraPessoaJ" ajax="false" >
+                            <p:graphicImage value="/css/imagens/altera.png"/>
+                            <f:attribute name="pessoaJuridica" value="#{pessoaJuridica}" />
+                        </p:commandLink>
+
+                        <p:commandLink title="Excluir" actionListener="#{pessoaJuridicaController.prepararAlterarPessoaJuridica}"  update="formRemover" oncomplete="dialogRemover.show()" >
+                            <p:graphicImage value="/css/imagens/delete.png"/>
+                            <f:attribute name="pessoaJuridica" value="#{pessoaJuridica}" />
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+
+                <p:commandLink ajax="false"  >
+                    <p:graphicImage value="/css/imagens/pdf.png"/>
+                    <p:dataExporter target="tabela" type="pdf" fileName="pessoaJuridica" excludeColumns="3" encoding="Cp1254" preProcessor="#{pessoaJuridicaController.preProcessPDF}"  />
+
+                </p:commandLink>
+
+                <p:commandLink ajax="false" >
+                    <p:graphicImage value="/css/imagens/excel.png"/>
+                    <p:dataExporter target="tabela" type="xls" fileName="pessoaJuridica" excludeColumns="3" encoding="Cp1254"   />
+
+                </p:commandLink>
+
+                <p:commandLink ajax="false"  >
+                    <p:graphicImage value="/css/imagens/csv.png"/>
+                    <p:dataExporter target="tabela" type="csv" fileName="pessoaJuridica" excludeColumns="3" encoding="Cp1254"   />
+
+                </p:commandLink>
+
+                <p:commandLink ajax="false"  >
+                    <p:graphicImage value="/css/imagens/xml.png"/>
+                    <p:dataExporter target="tabela" type="xml" fileName="pessoaJuridica" excludeColumns="3" encoding="Cp1254"   />
+
+                </p:commandLink>
+                <br/>
+
+            </h:form>
+
+
+        </div>
+        <div id="menuDireito" >
+
+
+        </div >
+
+        <div id="rodape" >
+
+
+        </div>
+
+        <h:form >
+            <p:confirmDialog header="Remover PessoaJuridica" message="Confirma a exclusão?" widgetVar="dialogRemover" showEffect="bounce" hideEffect="explode" height="200">
+
+                <p:commandButton value="Sim"  actionListener="#{pessoaJuridicaController.excluirPessoaJuridica}" action="listaPessoaJ" update="tabela message" oncomplete="dialogRemover.hide()" />
+                <p:commandButton value="Não" onclick="dialogRemover.hide()" />
+
+
+            </p:confirmDialog>
+
+
+        </h:form>
+
+
+
+    </h:body>
+</html>

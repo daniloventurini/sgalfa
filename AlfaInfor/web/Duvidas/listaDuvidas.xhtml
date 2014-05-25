@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layoutAtendimento.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalho" >
+
+        </div>
+        <div id="menuCabecalho">
+
+
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+
+            <center><h:outputText value="Duvidas Frequêntes" style="font-size: 26pt" /></center>
+
+            <h:form prependId="false">
+                <p:message id="message" for="tabela"/>
+
+
+
+                <p:dataTable id="tabela" widgetVar="teste" var="duvida" value="#{duvidaController.listarDuvidas}" style="border: 10px" emptyMessage="Nenhum Registro Encontrado" rows="10" paginator="true">
+
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Busca:"/>
+                            <p:inputText id="globalFilter" onkeyup="teste.filter()" size="70"/>
+                        </p:outputPanel>
+
+
+                    </f:facet>
+                    <p:column sortBy="#{duvida.autor}" filterBy="#{duvida.autor}" >
+                        <f:facet name="header">
+                            <h:outputText value="Autor:"/>
+                        </f:facet>
+                        <h:outputText value="#{duvida.autor}" />
+                    </p:column>
+                    <p:column style="width:50%; text-align:justify;" sortBy="#{duvida.descricao}" filterBy="#{duvida.descricao}" >
+                        <f:facet name="header">
+                            <h:outputText value="Descrição:"/>
+                        </f:facet>
+                        <h:outputText value="#{duvida.descricao}" />
+                    </p:column>
+                    <p:column sortBy="#{duvida.dataDuvida}" filterBy="#{duvida.dataDuvida}" >
+                        <f:facet name="header">
+                            <h:outputText value="Data:"/>
+                        </f:facet>
+                        <h:outputText value="#{duvida.dataDuvida}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="Repostas"/>
+                        </f:facet>
+                        <p:commandButton title="Repostas" oncomplete="dialogRespostas.show()" actionListener="#{duvidaController.prepararAlterarDuvida}" update="formResposta" value="Resposta Duvida">
+                            <f:attribute name="duvida" value="#{duvida}"/>
+                        </p:commandButton>
+                       
+
+                    </p:column>
+                </p:dataTable>
+                <p:commandLink title="Nova Duvida" oncomplete="dialogDuvida.show()" actionListener="#{duvidaController.prepararAdicionarDuvida}" update="formNovaDuvida">
+                    <p:graphicImage value="/css/imagens/novo.png"/>
+                </p:commandLink>
+
+
+                <h:outputLink title="Voltar" value="http://localhost:8080/PaginaIncial/">
+                    <p:graphicImage value="/css/imagens/cancelar.png"/>
+                </h:outputLink>
+
+
+                <br/>
+                <p:commandLink ajax="false"  >
+                    <p:graphicImage value="/css/imagens/pdf.png"/>
+                    <p:dataExporter target="tabela" type="pdf" fileName="duvida" excludeColumns="3" encoding="Cp1254"  preProcessor="#{grupoController.preProcessPDF}" />
+
+                </p:commandLink>
+
+                <p:commandLink ajax="false" >
+                    <p:graphicImage value="/css/imagens/excel.png"/>
+                    <p:dataExporter target="tabela" type="xls" fileName="duvida" excludeColumns="3" encoding="Cp1254"   />
+
+                </p:commandLink>
+
+                <p:commandLink ajax="false"  >
+                    <p:graphicImage value="/css/imagens/csv.png"/>
+                    <p:dataExporter target="tabela" type="csv" fileName="duvida" excludeColumns="3" encoding="Cp1254"   />
+
+                </p:commandLink>
+
+                <p:commandLink ajax="false"  >
+                    <p:graphicImage value="/css/imagens/xml.png"/>
+                    <p:dataExporter target="tabela" type="xml" fileName="duvida" excludeColumns="3" encoding="Cp1254"   />
+
+                </p:commandLink>
+                <br/>
+
+
+            </h:form>
+            <p:dialog header="Nova Duvida"  widgetVar="dialogDuvida" hideEffect="clip" modal="true" width="1000" >
+                <h:form id="formNovaDuvida">
+                    <p:panel id="duvida" header="Nova Duvida">
+                        <h:panelGrid id="infosDuvida" columns="3" style="margin-bottom:10px">
+                            <h:outputText value="Autor da Duvida: *"/>
+                            <p:inputText id="autor" value="#{duvidaController.duvida.autor}"  />
+                            <p:message for="autor"/>
+                            <h:outputText value="Data: *"/>
+                            <p:calendar id="dataDuvida" value="#{duvidaController.duvida.dataDuvida}" pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-3" >
+                            </p:calendar>
+                            <p:message for="dataDuvida"/>
+
+
+                        </h:panelGrid>
+                        <h:outputText value="Descrição: *"/>
+                        <p:inputTextarea  id="descricao" value="#{duvidaController.duvida.descricao}" style="width:100%"  />
+                        <p:message for="descricao"/>
+                        <br/>   <p:commandButton value="Add Duvida" actionListener="#{duvidaController.salvarDuvida}" update="tabela duvida descricao" oncomplete="dialogDuvida.hide()" ajax="false"/>
+                    </p:panel>
+                </h:form>
+            </p:dialog>
+
+
+            <p:dialog header="Reposta"  widgetVar="dialogRespostas" hideEffect="clip" modal="true" width="1000" >
+                <h:form id="formResposta">
+                    <h:panelGrid id="gridResposta" columns="3" >
+                        <h:outputLabel for="autorResposta" value="Autor da Resposta:"/>
+                        <p:inputText id="autorResposta" value="#{duvidaController.resposta.autorResposta}"/>
+                        <p:message for="autorResposta"/>
+
+
+
+                        <h:outputLabel for="dataresposta" value="Data da Resposta: "/>
+                        <p:calendar id="dataresposta" value="#{duvidaController.resposta.dataResposta}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </p:calendar>
+                        <p:message for="dataresposta"/>
+
+
+                    </h:panelGrid>
+                    <h:outputLabel for="resposta" value="Resposta:"/>
+                    <p:inputTextarea id="resposta" value="#{duvidaController.resposta.resposta}" style="width:100%"/>
+                    <p:message for="resposta"/>
+                    <p:commandButton value="Add Resposta" actionListener="#{duvidaController.addResposta}" update="formResposta:tabelaResposta formResposta:gridResposta resposta" />
+
+                    <p:dataTable id="tabelaResposta" var="resposta" value="#{duvidaController.listarRespostas}" emptyMessage="Nenhuma Resposta Cadastrada">
+                        <p:column style="width:85%; text-align:justify;" >
+                            <f:facet name="header">
+                                <h:outputText value="Resposta:"/>
+                            </f:facet>
+                            <h:outputText  value="#{resposta.resposta}"/>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Data"/>
+                            </f:facet>
+                            <h:outputText value="#{resposta.dataResposta}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Autor:"/>
+                            </f:facet>
+                            <h:outputText value="#{resposta.autorResposta}"/>
+                        </p:column>
+
+
+
+                    </p:dataTable>
+
+
+
+
+                </h:form>
+
+
+            </p:dialog>
+
+            <h:form>
+                <p:confirmDialog header="Remover Venda" message="Confirma a exclusão?" widgetVar="dialogRemover" showEffect="bounce" hideEffect="explode" height="200">
+
+                    <p:commandButton value="Sim"  actionListener="#{duvidaController.excluirDuvida}" action="listaDuvida" update="tabela message" oncomplete="dialogRemover.hide()" />
+                    <p:commandButton value="Não" onclick="dialogRemover.hide()" />
+
+
+                </p:confirmDialog>
+
+
+            </h:form>
+
+
+
+        </div>
+        <div id="menuDireito" >
+
+
+        </div >
+
+        <div id="rodape" >
+
+
+        </div>
+
+
+
+
+
+
+    </h:body>
+</html>

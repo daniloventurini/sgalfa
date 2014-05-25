@@ -1,0 +1,197 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model
+END
+Usuario.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/Usuario.java
+END
+PessoaJuridica.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/PessoaJuridica.java
+END
+Telefone.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/Telefone.java
+END
+VendaPlano.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/VendaPlano.java
+END
+Empresa.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/Empresa.java
+END
+Plano.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/Plano.java
+END
+Cidade.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/Cidade.java
+END
+ContasPagar.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/ContasPagar.java
+END
+CursosMatriculados.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/CursosMatriculados.java
+END
+Duvida.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/Duvida.java
+END
+ItensCompra.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/ItensCompra.java
+END
+ItensVenda.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/ItensVenda.java
+END
+Curso.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/Curso.java
+END
+Venda.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/Venda.java
+END
+Produto.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/Produto.java
+END
+ContasReceber.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/ContasReceber.java
+END
+Atendimento.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/Atendimento.java
+END
+Emprestimo.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/Emprestimo.java
+END
+Aluno.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/Aluno.java
+END
+Laudo.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/Laudo.java
+END
+Mensagem.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/Mensagem.java
+END
+Grupo.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/Grupo.java
+END
+Pessoa.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/Pessoa.java
+END
+RespostaDuvida.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/RespostaDuvida.java
+END
+Cheque.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/Cheque.java
+END
+Equipamento.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/Equipamento.java
+END
+Compra.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/Compra.java
+END
+Matricula.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/Matricula.java
+END
+PessoaFisica.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/PessoaFisica.java
+END
+TipoTelefone.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/TipoTelefone.java
+END
+Cargo.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/Cargo.java
+END
+Funcionario.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Model/Funcionario.java
+END

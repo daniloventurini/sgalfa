@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layout.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalho" >
+
+        </div>
+        <div id="menuCabecalho">
+            <oi:include src="/menu.xhtml"/>
+
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+
+            <center><p:graphicText value="Cadastro de Atendimentos" fontSize="33" fontName="Verdana" fontStyle="italic" /></center>
+            <p:panel header="Lançar Atendimentos">
+                <h:form prependId="false">
+                    <h:panelGrid id="infosAtendimento" columns="3" style="margin-bottom:10px">
+
+                        <h:outputLabel for="dataAtendimento" value="Data: *" />
+                        <p:calendar value="#{atendimentoController.atendimento.dataAtendimento}" navigator="true"  id="dataAtendimento" required="true" requiredMessage="Campo Obrigatório" pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-3">
+                        </p:calendar>
+                        <p:message for="dataAtendimento"/>
+
+                        <h:outputLabel for="pessoa" value="Cliente: *" />
+
+                        <p:autoComplete widgetVar="pessoa" id="pessoa"  value="#{atendimentoController.atendimento.pessoa}" completeMethod="#{atendimentoController.completaPessoa}"
+                                        var="pessoa" size="70" itemLabel="#{pessoa.nome} Cpf/Cnpj: #{pessoa.cpfCnpj}" itemValue="#{pessoa.id}" forceSelection="true" converter="#{atendimentoController.pessoaConverter}"  required="true" requiredMessage="Campo Obrigatório">
+                            <p:ajax update="endereco numero cidade" event="blur" />
+                        </p:autoComplete>
+
+                        <p:message for="pessoa"/>
+
+
+
+                        <h:outputLabel for="funcionario" value="Funcionário: *" />
+                        <h:selectOneMenu id="funcionario" value="#{atendimentoController.atendimento.funcionario}" converter="#{atendimentoController.funcionarioConverter}" required="true" requiredMessage="Campo Obrigatório">
+                            <f:selectItem itemLabel="Selecione" itemDisabled="true"/>
+                            <f:selectItems value="#{atendimentoController.funcionarios}"/>
+
+
+                        </h:selectOneMenu>
+                        <p:message for="funcionario"/>
+
+
+                        <h:outputLabel for="endereco" value="Endereço: " />
+                        <p:inputText id="endereco" value="#{atendimentoController.atendimento.pessoa.endereco} - #{atendimentoController.atendimento.pessoa.cidade.nomeCidade}" readonly="true" size="70"  />
+                        <p:message for="endereco"/>
+
+                        <h:outputLabel for="numero" value="Número: " />
+                        <p:inputText id="numero" value="#{atendimentoController.atendimento.pessoa.numero}" readonly="true" />
+                        <p:message for="numero"/>
+
+
+
+
+                        <h:outputLabel for="status" value="Status: *" />
+                        <h:selectOneMenu id="status" value="#{atendimentoController.atendimento.status}"  required="true" requiredMessage="Campo Obrigatório">
+
+                            <f:selectItem itemLabel="Selecione" itemDisabled="true" />
+                            <f:selectItem itemLabel="Ativo" itemValue="Ativo" />
+                            <f:selectItem itemLabel="Urgente" itemValue="Urgente" />
+                            <f:selectItem itemLabel="Aberta" itemValue="Aberta" />
+                            <f:selectItem itemLabel="Fechada" itemValue="Fechada" />
+                            <p:ajax update="valores" listener="#{atendimentoController.travaCampos}" event="change"/>
+                        </h:selectOneMenu>
+                        <p:message for="status" />
+
+                    </h:panelGrid>
+
+
+                    <h:panelGrid id="valores" columns="3">
+
+
+
+                        <h:outputLabel for="valorServico" value="Valor do Serviço: " />
+                        <p:inputText id="valorServico" value="#{atendimentoController.atendimento.valorServico}" disabled="#{atendimentoController.trava ? false : true}">
+                            <f:convertNumber integerOnly="true" minIntegerDigits="1"  />
+                            <f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2"/>
+                        </p:inputText>
+                        <p:message for="valorServico" />
+
+
+
+
+                        <h:outputLabel for="numeroNota" value="Numero da Nota: *" />
+                        <p:inputText id="numeroNota" value="#{atendimentoController.atendimento.numeroNota}" disabled="#{atendimentoController.trava ? false : true}"/>
+                        <p:message for="numeroNota" />
+
+                        <h:outputLabel for="obs" value="Observação: *" />
+                        <p:inputTextarea id="obs" value="#{atendimentoController.atendimento.obs}" style="width:500px;height:100px;"   required="true" requiredMessage="Campo Obrigatório" />
+                        <p:message for="obs" />
+
+                        <h:outputLabel for="obsfunc" value="Observação Técnica: " />
+                        <p:inputTextarea id="obsfunc" value="#{atendimentoController.atendimento.obsfunc}" style="width:500px;height:100px;"  disabled="#{atendimentoController.trava ? false : true}"/>
+                        <p:message for="obsfunc" />
+
+
+
+
+
+
+                    </h:panelGrid>
+
+
+                    <p:commandLink actionListener="#{atendimentoController.salvarAtendimento}" update="pessoa" action="listaAtendimento" ajax="false" >
+                        <p:graphicImage value="/css/imagens/Salvar_1.png"/>
+                    </p:commandLink>
+                    <p:commandLink action="listaAtendimento" immediate="true" ajax="false" >
+                        <p:graphicImage value="/css/imagens/cancelar.png"/>
+                    </p:commandLink>
+
+                </h:form>
+            </p:panel>
+
+
+        </div>
+        <div id="menuDireito" >
+
+
+        </div >
+
+        <div id="rodape" >
+
+
+        </div>
+
+
+
+
+
+    </h:body>
+</html>

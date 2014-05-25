@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="aluno"
+
+		 language="groovy"		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="555"
+		 columnSpacing="0"
+		 leftMargin="20"
+		 rightMargin="20"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<style 
+		name="Title"
+		isDefault="false"
+		fontName="Arial"
+		fontSize="26"
+		isBold="true"
+		pdfFontName="Helvetica-Bold"
+	>
+	</style>
+	<style 
+		name="SubTitle"
+		isDefault="false"
+		forecolor="#666666"
+		fontName="Arial"
+		fontSize="18"
+	>
+	</style>
+	<style 
+		name="Column header"
+		isDefault="false"
+		forecolor="#666666"
+		fontName="Arial"
+		fontSize="12"
+		isBold="true"
+	>
+	</style>
+	<style 
+		name="Detail"
+		isDefault="false"
+		fontName="Arial"
+		fontSize="12"
+	>
+	</style>
+
+	<queryString><![CDATA[SELECT
+     pessoa.`nome` AS pessoa_nome,
+     pessoafisica.`cpf` AS pessoafisica_cpf,
+     pessoafisica.`rg` AS pessoafisica_rg,
+     telefone.`numero` AS telefone_numero,
+     pessoa.`endereco` AS pessoa_endereco,
+     pessoa.`numero` AS pessoa_numero,
+     cidade.`nomeCidade` AS cidade_nomeCidade,
+     pessoa.`dataCadastro` AS pessoa_dataCadastro
+FROM
+     `pessoafisica` pessoafisica INNER JOIN `aluno` aluno ON pessoafisica.`id` = aluno.`id`
+     INNER JOIN `pessoa` pessoa ON pessoafisica.`id` = pessoa.`id`
+     INNER JOIN `pessoa_telefone` pessoa_telefone ON pessoa.`id` = pessoa_telefone.`Pessoa_id`
+     INNER JOIN `cidade` cidade ON pessoa.`cidade_id` = cidade.`id`
+     INNER JOIN `telefone` telefone ON pessoa_telefone.`telefone_id` = telefone.`id`]]></queryString>
+
+	<field name="pessoa_nome" class="java.lang.String"/>
+	<field name="pessoafisica_cpf" class="java.lang.String"/>
+	<field name="pessoafisica_rg" class="java.lang.String"/>
+	<field name="telefone_numero" class="java.lang.String"/>
+	<field name="pessoa_endereco" class="java.lang.String"/>
+	<field name="pessoa_numero" class="java.lang.Integer"/>
+	<field name="cidade_nomeCidade" class="java.lang.String"/>
+	<field name="pessoa_dataCadastro" class="java.sql.Date"/>
+
+	<variable name="dataCorrente" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<initialValueExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format(new Date())]]></initialValueExpression>
+	</variable>
+
+		<group  name="pessoa_nome" >
+			<groupExpression><![CDATA[$F{pessoa_nome}]]></groupExpression>
+			<groupHeader>
+			<band height="40"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="SubTitle"
+						x="0"
+						y="16"
+						width="548"
+						height="24"
+						forecolor="#006600"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{pessoa_nome}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="dd/MM/yyyy" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="421"
+						y="16"
+						width="100"
+						height="24"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$F{pessoa_dataCadastro}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="346"
+						y="16"
+						width="86"
+						height="24"
+						key="textField-2"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Data Cadastro: "]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="17"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Detail"
+						x="64"
+						y="0"
+						width="323"
+						height="17"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{pessoa_endereco}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						style="Column header"
+						x="0"
+						y="0"
+						width="92"
+						height="17"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Endereço:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						style="Column header"
+						x="432"
+						y="0"
+						width="92"
+						height="15"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Número:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Detail"
+						x="481"
+						y="0"
+						width="67"
+						height="15"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{pessoa_numero}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						style="Column header"
+						x="240"
+						y="0"
+						width="92"
+						height="17"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Cidade:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Detail"
+						x="289"
+						y="0"
+						width="154"
+						height="17"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{cidade_nomeCidade}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="-259"
+						y="0"
+						width="802"
+						height="1"
+						key="line"
+						positionType="FixRelativeToBottom"/>
+					<graphicElement stretchType="NoStretch">
+					<pen lineWidth="0.5" lineColor="#999999"/>
+</graphicElement>
+				</line>
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="105"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="98"
+						y="10"
+						width="334"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font size="15"/>
+					</textElement>
+				<text><![CDATA[Rua Duque de Caxias, 819     Terra Rica - PR]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="98"
+						y="50"
+						width="387"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font size="15"/>
+					</textElement>
+				<text><![CDATA[CNPJ:03.952.767.0001/09      IE:902.17001-40]]></text>
+				</staticText>
+				<image  evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="-6"
+						width="98"
+						height="111"
+						key="image"/>
+					<box></box>
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.lang.String"><![CDATA["D:\\logoalfa cópia.jpg"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement
+						x="92"
+						y="30"
+						width="421"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font size="15"/>
+					</textElement>
+				<text><![CDATA[ Fone: (44) 3441-1313              E-mail: alfainfor@terrarica.net]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						style="SubTitle"
+						x="0"
+						y="83"
+						width="548"
+						height="22"
+						key="staticText"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<text><![CDATA[Relatório de Alunos]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="395"
+						y="70"
+						width="148"
+						height="21"
+						key="textField-1"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Total de Registros:" + $V{REPORT_COUNT}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="426"
+						y="83"
+						width="100"
+						height="15"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{dataCorrente}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="396"
+						y="83"
+						width="48"
+						height="15"
+						key="staticText-1"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Data:]]></text>
+				</staticText>
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="36"  isSplitAllowed="true" >
+				<line direction="TopDown">
+					<reportElement
+						x="-141"
+						y="34"
+						width="694"
+						height="0"
+						key="line"
+						positionType="FixRelativeToBottom"/>
+					<graphicElement stretchType="NoStretch">
+					<pen lineWidth="0.5" lineColor="#999999"/>
+</graphicElement>
+				</line>
+				<staticText>
+					<reportElement
+						style="Column header"
+						x="0"
+						y="19"
+						width="92"
+						height="15"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Cpf:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						style="Column header"
+						x="143"
+						y="19"
+						width="92"
+						height="15"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Rg:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						style="Column header"
+						x="421"
+						y="19"
+						width="92"
+						height="15"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Telefone:]]></text>
+				</staticText>
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="16"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Detail"
+						x="0"
+						y="0"
+						width="116"
+						height="16"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{pessoafisica_cpf}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Detail"
+						x="143"
+						y="0"
+						width="92"
+						height="16"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{pessoafisica_rg}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Detail"
+						x="421"
+						y="0"
+						width="92"
+						height="15"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{telefone_numero}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="45"  isSplitAllowed="true" >
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="0"
+						width="553"
+						height="4"
+						key="line"
+						positionType="FixRelativeToBottom"/>
+					<graphicElement stretchType="NoStretch">
+					<pen lineWidth="0.5" lineColor="#999999"/>
+</graphicElement>
+				</line>
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="20"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Column header"
+						x="433"
+						y="0"
+						width="80"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font size="10" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Column header"
+						x="513"
+						y="0"
+						width="40"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font size="10" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="EEEEE dd MMMMM yyyy" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Column header"
+						x="0"
+						y="0"
+						width="197"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font size="10" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

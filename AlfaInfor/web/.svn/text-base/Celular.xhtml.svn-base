@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.prime.com.tr/ui"
+        xmlns:i="http://primefaces.prime.com.tr/touch"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        contentType="text/html">
+    <i:application icon="/images/touch/notesicon.png" theme="dark">
+        <i:view id="home" title="Atendimentos Alfa Infor">
+
+            <h:form prependId="false">
+                <i:tableView id="notes">
+                    <i:rowGroup display="edgetoedge">
+                        <ui:repeat value="#{atendimentoController.listarAtendimentosMobile}"  var="atendimento">
+                            <h:outputLabel style="color:red" for="cliente" value="Cliente: "/>
+                            <i:rowItem id="cliente">
+                                <h:outputText  value="#{atendimento.pessoa.nome}" /><br/>
+                                <h:outputText id="endereco" value="#{atendimento.pessoa.endereco} - #{atendimento.pessoa.numero}" /><br/>
+                                <h:outputLabel style="color:blue" value="Observação: "/>  <h:outputText  value="#{atendimento.obs}" /><br/>
+                                <h:outputLabel style="color:blue" value="Funcionário: "/> <h:outputText value="#{atendimento.funcionario.nome}"/>
+                            </i:rowItem>
+
+                        </ui:repeat>
+
+                    </i:rowGroup>
+
+                </i:tableView>
+            </h:form>
+        </i:view>
+
+
+    </i:application>
+</f:view>

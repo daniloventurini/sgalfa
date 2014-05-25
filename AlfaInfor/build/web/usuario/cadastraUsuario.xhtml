@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layout.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalho" >
+
+        </div>
+        <div id="menuCabecalho">
+            <oi:include src="/menu.xhtml"/>
+
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+
+            <center><p:graphicText value="Cadastro de Usuário" fontSize="33" fontName="Verdana" fontStyle="italic" /></center>
+            <p:panel header="Dados">
+                <h:form prependId="false">
+                    <h:panelGrid id="infosUsuario" columns="3" style="margin-bottom:10px">
+
+                        <h:outputLabel for="funcionario" value="Funcionário: *" />
+                        <p:autoComplete widgetVar="funcionario" id="funcionario"  value="#{usuarioController.usuario.funcionario}" completeMethod="#{usuarioController.completaFuncionario}"
+                                        var="funcionario" size="70" itemLabel="#{funcionario.nome}" itemValue="#{funcionario.id}" forceSelection="true" converter="#{usuarioController.converterFuncionario}" required="true" requiredMessage="Campo Obrigatório"/>
+                        <p:message for="funcionario"/>
+
+
+                        <h:outputLabel for="login" value="Login: *" />
+                        <p:inputText id="login" value="#{usuarioController.usuario.login}" required="true" requiredMessage="Campo Obrigatório" size="30"/>
+                        <p:message for="login"/>
+
+
+
+
+                        <h:outputLabel for="senha" value="Senha: *" />
+                        <p:password feedback="true" minLength="8"  id="senha" value="#{usuarioController.usuario.senha}" promptLabel="Entre com a Senha" weakLabel="fraca" goodLabel="média" strongLabel="forte"  maxlength="20" required="true" requiredMessage="Campo Obrigatório"
+
+                                    />
+                        <p:message for="senha"/>
+                        <h:outputLabel for="autoridade" value="Autoridade: *"/>
+                        <h:selectOneMenu id="autoridade" value="#{usuarioController.usuario.autoridade}" required="true" requiredMessage="Campo Obrigatório">
+                            <f:selectItem itemLabel="Selecione" itemDisabled="true"/>
+                            <f:selectItem itemLabel="Administrador" itemValue="ROLE_ADMIN"/>
+                            <f:selectItem itemLabel="Usuario" itemValue="ROLE_USU"/>
+
+                        </h:selectOneMenu>
+                        <p:message for="autoridade"/>
+
+                    </h:panelGrid>
+                    <p:commandLink actionListener="#{usuarioController.salvarUsuario}" ajax="false" update="message">
+                        <p:graphicImage value="/css/imagens/Salvar_1.png"/>
+                    </p:commandLink>
+                    <p:commandLink action="listaUsuario" immediate="true" ajax="false" >
+                        <p:graphicImage value="/css/imagens/cancelar.png"/>
+                    </p:commandLink>
+                </h:form>
+            </p:panel>
+
+
+
+        </div>
+        <div id="menuDireito" >
+
+
+        </div >
+
+        <div id="rodape" >
+
+
+        </div>
+
+
+
+
+    </h:body>
+</html>

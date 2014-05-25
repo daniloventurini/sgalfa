@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layoutAtendimento.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalho" >
+
+        </div>
+        <div id="menuCabecalho">
+
+            <oi:include src="/menu.xhtml"/>
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+
+            <center><p:graphicText value="Lista de Vendas" fontSize="33" fontName="Verdana" fontStyle="italic" /></center>
+
+            <h:form id="form" prependId="false">
+                <p:commandLink actionListener="#{vendaController.prepararAdicionar}" action="cadastraVenda" ajax="false" >
+                    <p:graphicImage value="/css/imagens/novo.png"/>
+                </p:commandLink>
+                <p:message id="message" for="tabela"/>
+                <p:dataTable id="tabela" widgetVar="teste" var="venda" value="#{vendaController.listarVendas}" style="border: 10px"  paginator="true" rows="10" emptyMessage="Vendas não encontradas!">
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Busca:" />
+                            <p:inputText id="globalFilter" onkeyup="teste.filter()" size="90"/>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column filterBy="#{venda.pessoa.nome}" sortBy="#{venda.pessoa.nome}" >
+                        <f:facet name="header">
+                            <h:outputText value="Nome"/>
+                        </f:facet>
+                        <h:outputText value="#{venda.pessoa.nome}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Data"/>
+                        </f:facet>
+                        <h:outputText value="#{venda.dataVenda}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Valor"/>
+                        </f:facet>
+                        <h:outputText value="R$ #{venda.valorTotal}" >
+
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Status"/>
+                        </f:facet>
+                        <h:outputText value="#{venda.status}" />
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Usuário"/>
+                        </f:facet>
+                        <h:outputText value="#{venda.usuario}" />
+                    </p:column>
+
+
+                    <p:column style="text-align: center">
+                        <f:facet name="header">
+                            <h:outputText value="Opções" />
+                        </f:facet>
+                        <p:commandLink title="Vizualizar Venda" actionListener="#{vendaController.alterar}" action="visualizaVenda" ajax="false" >
+                            <p:graphicImage value="/css/imagens/visualizar.png"/>
+                            <f:attribute name="venda" value="#{venda}"/>
+                        </p:commandLink>
+                        <p:commandLink title="Alterar" actionListener="#{vendaController.alterar}" action="cadastraVenda" ajax="false">
+                            <p:graphicImage value="/css/imagens/altera.png"/>
+                            <f:attribute name="venda" value="#{venda}"/>
+                        </p:commandLink>
+
+                        <p:commandLink title="Estornar Venda"  actionListener="#{vendaController.alterar}" update="formRemover" oncomplete="dialogRemover.show()" >
+                            <p:graphicImage value="/css/imagens/estorna.png"/>
+                            <f:attribute name="venda" value="#{venda}"/>
+
+                        </p:commandLink>
+
+
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+
+
+        </div>
+        <h:form>
+            <p:confirmDialog header="Estornar Venda" message="Deseja Realmente Estornar Esta Venda?" widgetVar="dialogRemover"  height="200">
+
+                <p:commandButton value="Sim"  actionListener="#{vendaController.estorno}" action="listaVenda" update="tabela message" oncomplete="dialogRemover.hide()" />
+                <p:commandButton value="Não" onclick="dialogRemover.hide()" />
+
+
+            </p:confirmDialog>
+
+
+        </h:form>
+
+    </h:body>
+</html>

@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layoutAtendimento.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalho" >
+
+        </div>
+        <div id="menuCabecalho">
+
+            <oi:include src="/menu.xhtml"/>
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+
+            <center><p:graphicText value="Lista de Atendimentos" fontSize="33" fontName="Verdana" fontStyle="italic" /></center>
+
+            <h:form id="atendimento" prependId="false">
+                <p:commandLink actionListener="#{atendimentoController.prepararAdicionarAtendimento}" action="cadastraAtendimento" ajax="false" >
+                    <p:graphicImage value="/css/imagens/novo.png"/>
+                </p:commandLink>
+                <p:message id="message" for="tabela"/>
+                <p:dataTable id="tabela" widgetVar="teste" var="atendimento" value="#{atendimentoController.listarAtendimentos}" style="border: 10px" emptyMessage="Nenhum Registro Encontrado" rows="10" paginator="true">
+
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Busca:"/>
+                            <p:inputText id="globalFilter" onkeyup="teste.filter()" size="70"/>
+                        </p:outputPanel>
+
+
+                    </f:facet>
+                    <p:column style="width:16px">
+                        <p:rowToggler  />
+                    </p:column>
+                    <p:column sortBy="#{atendimento.pessoa.nome}" filterBy="#{atendimento.pessoa.nome}" >
+                        <f:facet name="header">
+                            <h:outputText value="Cliente"/>
+                        </f:facet>
+                        <h:outputText value="#{atendimento.pessoa.nome}" />
+                    </p:column>
+                    <p:column sortBy="#{atendimento.funcionario.nome}" filterBy="#{atendimento.funcionario.nome}" filterMatchMode="exact" filterOptions="#{atendimentoController.funcionarios2}">
+                        <f:facet name="header">
+                            <h:outputText value="Funcionário"/>
+                        </f:facet>
+                        <h:outputText value="#{atendimento.funcionario.nome}" />
+                    </p:column>
+                    <p:column sortBy="#{atendimento.dataAtendimento}" filterBy="#{atendimento.dataAtendimento}">
+                        <f:facet name="header">
+                            <h:outputText value="Data"/>
+                        </f:facet>
+                        <h:outputText value="#{atendimento.dataAtendimento}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column sortBy="#{atendimento.horaServico}" filterBy="#{atendimento.horaServico}" >
+                        <f:facet name="header">
+                            <h:outputText value="Hora"/>
+                        </f:facet>
+                        <h:outputText value="#{atendimento.horaServico} Hrs" />
+                    </p:column>
+
+                    <p:column sortBy="#{atendimento.status}"  filterBy="#{atendimento.status}" headerText="Atendimentos" filterMatchMode="exact" filterOptions="#{atendimentoController.statusAtdm}">
+                        <f:facet name="header">
+                            <h:outputText value="Status"/>
+                        </f:facet>
+                        <h:outputText value="#{atendimento.status}" />
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Usuário"/>
+                        </f:facet>
+                        <h:outputText value="#{atendimento.usuario}" />
+                    </p:column>
+
+
+
+
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Opções"/>
+                        </f:facet>
+                        <p:commandLink title="Vizualizar Atendimento" actionListener="#{atendimentoController.prepararAlterarAtendimento}" action="visualizaatendimento" ajax="false" >
+                            <p:graphicImage value="/css/imagens/visualizar.png"/>
+                            <f:attribute name="atendimento" value="#{atendimento}"/>
+                        </p:commandLink>
+                        <p:commandLink title="Alterar" actionListener="#{atendimentoController.prepararAlterarAtendimento}"  action="cadastraAtendimento" ajax="false">
+                            <p:graphicImage value="/css/imagens/altera.png"/>
+                            <f:attribute name="atendimento" value="#{atendimento}"/>
+                        </p:commandLink>
+                        <p:commandLink title="Excluir" actionListener="#{atendimentoController.prepararAlterarAtendimento}"  update="formRemover" oncomplete="dialogRemover.show()">
+                            <p:graphicImage value="/css/imagens/delete.png"/>
+                            <f:attribute name="atendimento" value="#{atendimento}" />
+                        </p:commandLink>
+                    </p:column>
+
+                    <p:rowExpansion>
+                        <h:panelGrid id="display" columns="2" cellpadding="4"
+                                     style="width:600px;"
+                                     styleClass="ui-widget-content"
+                                     columnClasses="label, value">
+
+
+
+                            <h:outputText value="Endereço:" />
+                            <h:outputText value="#{atendimento.pessoa.endereco}"  />
+
+                            <h:outputText value="Número:" />
+                            <h:outputText value="#{atendimento.pessoa.numero}" />
+
+                            <h:outputText value="Obs:" />
+                            <h:outputText value="#{atendimento.obs}" />
+
+
+                        </h:panelGrid>
+
+                    </p:rowExpansion>  
+
+
+                </p:dataTable>
+
+                <p:commandLink ajax="false"  >
+                    <p:graphicImage value="/css/imagens/pdf.png"/>
+                    <p:dataExporter target="tabela" type="pdf" fileName="atendimento" excludeColumns="0,7,8" encoding="Cp1254" preProcessor="#{atendimentoController.preProcessPDF}"  />
+
+                </p:commandLink>
+            </h:form>
+
+
+        </div>
+        <div id="menuDireito" >
+
+
+        </div >
+
+        <div id="rodape" >
+
+
+        </div>
+
+        <h:form>
+            <p:confirmDialog header="Remover Atendimento" message="Confirma a exclusão?" widgetVar="dialogRemover" showEffect="bounce" hideEffect="explode" height="200">
+
+                <p:commandButton value="Sim"  actionListener="#{atendimentoController.excluirAtendimento}" action="listaAtendimento" update="tabela message" oncomplete="dialogRemover.hide()" />
+                <p:commandButton value="Não" onclick="dialogRemover.hide()" />
+
+
+            </p:confirmDialog>
+
+
+        </h:form>
+
+
+
+
+    </h:body>
+</html>

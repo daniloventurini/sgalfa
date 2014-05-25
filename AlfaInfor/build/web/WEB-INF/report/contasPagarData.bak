@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="contasPagarData"
+
+		 language="groovy"		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="20"
+		 rightMargin="20"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<style 
+		name="Title"
+		isDefault="false"
+		fontName="Arial"
+		fontSize="26"
+		isBold="true"
+		pdfFontName="Helvetica-Bold"
+	>
+	</style>
+	<style 
+		name="SubTitle"
+		isDefault="false"
+		forecolor="#666666"
+		fontName="Arial"
+		fontSize="18"
+	>
+	</style>
+	<style 
+		name="Column header"
+		isDefault="false"
+		forecolor="#666666"
+		fontName="Arial"
+		fontSize="12"
+		isBold="true"
+	>
+	</style>
+	<style 
+		name="Detail"
+		isDefault="false"
+		fontName="Arial"
+		fontSize="12"
+	>
+	</style>
+
+	<parameter name="dt_inicio" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2011/01/01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dt_fim" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2011/12/25"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL"><![CDATA[SELECT
+     pessoa.`nome` AS pessoa_nome,
+     contaspagar.`dataConta` AS contaspagar_dataConta,
+     contaspagar.`dataPagamento` AS contaspagar_dataPagamento,
+     contaspagar.`valor` AS contaspagar_valor,
+     contaspagar.`status` AS contaspagar_status
+FROM
+     `pessoa` pessoa INNER JOIN `contaspagar` contaspagar ON pessoa.`id` = contaspagar.`pessoa_id`
+where contaspagar.dataPagamento between $P{dt_inicio} and  $P{dt_fim}  AND contaspagar.`status` <> 'Estornada']]></queryString>
+
+	<field name="pessoa_nome" class="java.lang.String"/>
+	<field name="contaspagar_dataConta" class="java.sql.Date"/>
+	<field name="contaspagar_dataPagamento" class="java.sql.Date"/>
+	<field name="contaspagar_valor" class="java.math.BigDecimal"/>
+	<field name="contaspagar_status" class="java.lang.String"/>
+
+	<variable name="VALOR_ACUMULADO" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{contaspagar_valor}]]></variableExpression>
+	</variable>
+	<variable name="dataCorrente" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<initialValueExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format(new Date())]]></initialValueExpression>
+	</variable>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="124"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="148"
+						y="67"
+						width="387"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font size="15"/>
+					</textElement>
+				<text><![CDATA[CNPJ:03.952.767.0001/09      IE:902.17001-40]]></text>
+				</staticText>
+				<image  evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="10"
+						y="10"
+						width="128"
+						height="111"
+						key="image"/>
+					<box></box>
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.lang.String"><![CDATA["D:\\logoalfa cópia.jpg"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement
+						style="SubTitle"
+						x="172"
+						y="99"
+						width="235"
+						height="22"
+						key="staticText"/>
+					<box></box>
+					<textElement textAlignment="Justified">
+						<font/>
+					</textElement>
+				<text><![CDATA[Relatório de Conta a Pagar]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="63"
+						y="47"
+						width="490"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font size="15"/>
+					</textElement>
+				<text><![CDATA[                    Fone: (44) 3441-1313              E-mail: alfainfor@terrarica.net]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="148"
+						y="27"
+						width="334"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font size="15"/>
+					</textElement>
+				<text><![CDATA[Rua Duque de Caxias, 819     Terra Rica - PR]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="441"
+						y="87"
+						width="113"
+						height="21"
+						key="textField-1"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Total de Registros: " + $V{REPORT_COUNT}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="473"
+						y="99"
+						width="62"
+						height="19"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{dataCorrente}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="443"
+						y="99"
+						width="41"
+						height="19"
+						key="staticText-2"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Data:]]></text>
+				</staticText>
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="36"  isSplitAllowed="true" >
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="35"
+						width="555"
+						height="1"
+						key="line"
+						positionType="FixRelativeToBottom"/>
+					<graphicElement stretchType="NoStretch">
+					<pen lineWidth="0.5" lineColor="#999999"/>
+</graphicElement>
+				</line>
+				<staticText>
+					<reportElement
+						style="Column header"
+						x="0"
+						y="19"
+						width="208"
+						height="15"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Nome:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						style="Column header"
+						x="208"
+						y="19"
+						width="92"
+						height="15"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Dt. Conta:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						style="Column header"
+						x="300"
+						y="19"
+						width="93"
+						height="15"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Dt. Vencimento:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						style="Column header"
+						x="394"
+						y="19"
+						width="75"
+						height="15"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Valor:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						style="Column header"
+						x="471"
+						y="19"
+						width="84"
+						height="15"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Status:]]></text>
+				</staticText>
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="16"  isSplitAllowed="true" >
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="15"
+						width="555"
+						height="1"
+						key="line"
+						positionType="FixRelativeToBottom"/>
+					<graphicElement stretchType="NoStretch">
+					<pen lineWidth="0.5" lineColor="#999999"/>
+</graphicElement>
+				</line>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Detail"
+						x="0"
+						y="0"
+						width="208"
+						height="15"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{pessoa_nome}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="dd/MM/yyyy" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Detail"
+						x="208"
+						y="-1"
+						width="93"
+						height="15"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$F{contaspagar_dataConta}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="dd/MM/yyyy" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Detail"
+						x="300"
+						y="-1"
+						width="94"
+						height="15"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$F{contaspagar_dataPagamento}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Detail"
+						x="394"
+						y="-1"
+						width="76"
+						height="15"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{contaspagar_valor}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Detail"
+						x="471"
+						y="0"
+						width="84"
+						height="15"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{contaspagar_status}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="45"  isSplitAllowed="true" >
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="3"
+						width="555"
+						height="1"
+						key="line"
+						positionType="FixRelativeToBottom"/>
+					<graphicElement stretchType="NoStretch">
+					<pen lineWidth="0.5" lineColor="#999999"/>
+</graphicElement>
+				</line>
+				<textField isStretchWithOverflow="false" pattern="¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="393"
+						y="3"
+						width="76"
+						height="42"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{VALOR_ACUMULADO}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="330"
+						y="3"
+						width="93"
+						height="42"
+						key="staticText-1"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Valor Total:]]></text>
+				</staticText>
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="20"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Column header"
+						x="433"
+						y="0"
+						width="80"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font size="10" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Column header"
+						x="513"
+						y="0"
+						width="40"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font size="10" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="EEEEE dd MMMMM yyyy" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Column header"
+						x="0"
+						y="0"
+						width="197"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font size="10" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:p="http://primefaces.prime.com.tr/ui"
+       >
+
+    <h:form>
+
+
+        <p:menubar >
+
+            <p:menuitem value="Home"  ajax="false" action="/index.jsf"/>
+
+            <p:submenu label="Cadastros">
+
+
+                <p:menuitem value="Aluno"  ajax="false" action="/aluno/listaAluno.jsf"/>
+                <p:menuitem value="Cargo"  ajax="false" action="/cargo/listaCargo.jsf"/>
+                <p:menuitem value="Cidade"  ajax="false" action="/cidade/listaCidade.jsf"/>
+                <p:menuitem value="Curso"  ajax="false" action="/curso/listaCurso.jsf"/>
+                <p:menuitem value="Equipamento"  ajax="false" action="/equipamento/listaEquipamento.jsf"/>
+                <p:menuitem value="Empresa"  ajax="false" actionListener="#{empresaController.prepararAlterarEmpresa}" action="/empresa/cadastraEmpresa.jsf"/>
+                <p:menuitem value="Funcionário"  ajax="false" action="/funcionario/listaFuncionario.jsf"/>
+                <p:menuitem value="Grupo"  ajax="false" action="/grupo/listaGrupo.jsf"/>
+                <p:submenu label="Pessoas">
+                    <p:menuitem value="Pessoa Física"  ajax="false" action="/pessoa/listaPessoa.jsf"/>
+                    <p:menuitem value="Pessoa Jurídica"  ajax="false" action="/pessoaJuridica/listaPessoaJ.jsf"/>
+
+                </p:submenu>
+                <p:menuitem value="Plano de Internet"  ajax="false" action="/plano/listaPlano.jsf"/>
+                <p:menuitem value="Produto"  ajax="false" action="/produto/listaProduto.jsf"/>
+                <p:menuitem value="Usuário"  ajax="false" action="/usuario/listaUsuario.jsf"/>
+
+            </p:submenu>
+            <p:submenu label="Movimentos">
+                <p:menuitem value="Atendimento"  ajax="false" action="/atendimento/listaAtendimento.jsf"/>
+                <p:menuitem value="Compra"  ajax="false" action="/compra/listaCompra.jsf"/>
+                <p:menuitem value="Contas a Pagar"  ajax="false" action="/contaspagar/listaContasPagar.jsf"/>
+                <p:menuitem value="Contas a R."  ajax="false" action="/contasreceber/listaContasReceber.jsf"/>
+                <p:menuitem value="Empréstimo"  ajax="false" action="/emprestimoequi/listaEmprestimo.jsf"/>
+                <p:menuitem value="Laudo"  ajax="false" action="/laudo/listaLaudo.jsf"/>
+                <p:menuitem value="Matrícula"  ajax="false" action="/matricula/listaMatricula.jsf"/>
+                <p:menuitem value="Venda"  ajax="false" action="/venda/listaVenda.jsf"/>
+                <p:menuitem value="Venda Plano"  ajax="false" action="/vendaplano/listaVendaPlano.jsf"/>
+
+            </p:submenu>
+            <p:submenu label="Relatório">
+                <p:submenu label="Cadastrais">
+                    <p:menuitem value="Grupos"  actionListener="#{grupoController.imprimeRelatorio}" ajax="false" immediate="true" />
+                    <p:menuitem value="Cargos"  actionListener="#{cargoController.imprimeRelatorio}" ajax="false" immediate="true" />
+                    <p:menuitem value="Cursos"  actionListener="#{cursoController.imprimeRelatorio}" ajax="false" />
+                    <p:menuitem value="Equipamentos"  actionListener="#{equipamentoController.imprimeRelatorio}" ajax="false" />
+                    <p:menuitem value="Plano Internet"  actionListener="#{planoController.imprimeRelatorio}" ajax="false" />
+                    <p:menuitem value="Produtos"  actionListener="#{produtoController.imprimeRelatorio}" ajax="false" />
+                    <p:menuitem value="Usuário"  actionListener="#{usuarioController.imprimeRelatorio}" ajax="false" />
+                    <p:menuitem value="Pessoa Física"  actionListener="#{pessoaFisicaController.imprimeRelatorio}" ajax="false" />
+                    <p:menuitem value="Pessoa Jurídica"  actionListener="#{pessoaJuridicaController.imprimeRelatorio}" ajax="false" />
+                    <p:menuitem value="Aluno"  actionListener="#{alunoController.imprimeRelatorio}" ajax="false" />
+                    <p:menuitem value="Funcionário"  actionListener="#{funcionarioController.imprimeRelatorio}" ajax="false" />
+                </p:submenu>
+                <p:submenu label="Gerênciais">
+                    <p:submenu label="Atendimento">
+                        <p:menuitem value="Atendimento Funcionario Dt."  action="/relatorios/relAtendimentoData.jsf" ajax="false" />
+                        <p:menuitem value="Atendimento Cliente Status" action="/relatorios/relAtendimentoCliStatus.jsf" ajax="false" />
+                        <p:menuitem value="Atendimento Funcionario Sta." action="/relatorios/relAtendimentoFunStatus.jsf" ajax="false" />
+                    </p:submenu>
+                    <p:menuitem value="Cliente em Débito"  action="/relatorios/relContasReceberClientesDebito.jsf" ajax="false" />
+                    <p:menuitem value="Cheques"  action="/relatorios/relCheques.jsf" ajax="false" />
+                    <p:submenu label="Contas a Pagar">
+                        <p:menuitem value="Contas a Pagar Data" action="/relatorios/relContasPagarData.jsf" ajax="false" />
+                        <p:menuitem value="Contas a Pagar Fornecedor" action="/relatorios/relContasPagarFor.jsf" ajax="false" />
+                        <p:menuitem value="Contas a Pagar Fornecedor Status" action="/relatorios/relContasPagarForStatus.jsf" ajax="false" />
+                    </p:submenu>
+                    <p:submenu label="Contas a Receber">
+                        <p:menuitem value="Contas a Receber Cliente" action="/relatorios/relContasReceberCli.jsf" ajax="false" />
+                        <p:menuitem value="Contas a Receber Cliente e Data" action="/relatorios/relContasReceberDataeCliente.jsf" ajax="false" />
+                        <p:menuitem value="Contas a Receber Cliente e Status" action="/relatorios/relContasReceberClieStatus.jsf" ajax="false" />
+                    </p:submenu>
+                    <p:submenu label="Compra">
+                        <p:menuitem value="Compra por Funcionário"  action="/relatorios/relCompraFun.jsf" ajax="false" />
+                        <p:menuitem value="Compra por Fornecedor"  action="/relatorios/relCompraCli.jsf" ajax="false" />
+                    </p:submenu>
+                    <p:submenu label="Empréstimo">
+                        <p:menuitem value="Empréstimo Equipamento(Total)"  actionListener="#{emprestimoController.imprimeRelatorioTotal}" ajax="false" />
+                        <p:menuitem value="Empréstimo Equipamento Data" action="/relatorios/relEmprestimoData.jsf" ajax="false" />
+                        <p:menuitem value="Empréstimo Equipamento Cliente" action="/relatorios/relEmprestimoCli.jsf" ajax="false" />
+                    </p:submenu>
+                    <p:submenu label="Laudo">
+                        <p:menuitem value="Laudo Equipamento(Total)"  actionListener="#{laudoController.imprimeRelatorioTotal}" ajax="false" />
+                        <p:menuitem value="Laudo Equipamento Data" action="/relatorios/relLaudoData.jsf" ajax="false" />
+                        <p:menuitem value="Laudo Equipamento Cliente" action="/relatorios/relLaudoCli.jsf" ajax="false" />
+                    </p:submenu>
+                    <p:submenu label="Matrículas">
+                        <p:menuitem value="Matrícula(Total)"  actionListener="#{matriculaController.imprimeRelatorioTotal}" ajax="false" />
+                        <p:menuitem value="Matrícula Data" action="/relatorios/relMatriculaData.jsf" ajax="false" />
+                        <p:menuitem value="Matrícula Aluno" action="/relatorios/relMatriculaAlu.jsf" ajax="false" />
+                        <p:menuitem value="Matrícula Horário" action="/relatorios/relMatriculaHora.jsf" ajax="false" />
+                    </p:submenu>
+                    <p:menuitem value="Produtos em Falta"  actionListener="#{produtoController.imprimeProdutosemFalta}" ajax="false" />
+                    <p:submenu label="Venda">
+                        <p:menuitem value="Venda por Cliente"  action="/relatorios/relVendaCli.jsf" ajax="false" />
+                        <p:menuitem value="Venda por Funcionário"  action="/relatorios/relVendaFun.jsf" ajax="false" />
+                    </p:submenu>
+                    <p:submenu label="Venda Plano In.">
+                        <p:menuitem value="Venda Plano(Total)"  actionListener="#{vendaPlanoController.imprimeRelatorioTotal}" ajax="false" />
+                        <p:menuitem value="Venda Plano Data" action="/relatorios/relVendaPlanoData.jsf" ajax="false" />
+                        <p:menuitem value="Venda Plano Cliente" action="/relatorios/relVendaPlanoCli.jsf" ajax="false" />
+                    </p:submenu>
+                </p:submenu>
+
+            </p:submenu>
+            <p:menuitem value="Contato"  ajax="false" action="/Email"/>
+            <p:menuitem value="Chat"  ajax="false" action="/chat.jsp"/>
+            <p:menuitem value="Duvidas"  ajax="false"  action="/Duvidas/listaDuvidas.jsf"/>
+            <p:submenu label="Utilitários">
+                <p:menuitem value="Backup"  ajax="false" actionListener="#{usuarioController.Backup}" update="backup"/>
+            </p:submenu>
+            <p:menuitem value="Ajuda"  ajax="false" actionListener="#{ajudaController.openHelp}"/>
+
+
+
+        </p:menubar>
+    </h:form>
+
+
+
+
+
+</html>
+

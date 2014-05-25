@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layout.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalho" >
+
+        </div>
+        <div id="menuCabecalho">
+
+            <oi:include src="/menu.xhtml"/>
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+
+            <center><p:graphicText value="Cadastro de Funcionários" fontSize="33" fontName="Verdana" fontStyle="italic" /></center>
+            <p:panel header="Dados">
+
+                <h:form prependId="false">
+                    <h:panelGrid id="infosFuncionario" columns="3" style="margin-bottom:10px">
+
+                        <h:outputLabel for="nome" value="Nome: *" />
+                        <p:inputText id="nome" value="#{funcionarioController.funcionario.nome}" required="true" requiredMessage="Campo Obrigatório" size="70"/>
+                        <p:message for="nome" />
+
+
+                        <h:outputLabel for="cargo" value="Cargo: *" />
+                        <h:selectOneMenu value="#{funcionarioController.funcionario.cargo}" id="cargo" converter="#{funcionarioController.converterCargo}" required="true" requiredMessage="Campo Obrigatório" >
+                            <f:selectItem itemLabel="Selecione" itemDisabled="true"/>
+                            <f:selectItems value="#{funcionarioController.cargos}"/>
+                        </h:selectOneMenu>
+                        <p:message for="cargo" />
+
+                        <h:outputLabel for="dataadmissao" value="Data de Admissão: *" />
+                        <p:calendar value="#{funcionarioController.funcionario.dataadmissao}" navigator="true" id="dataadmissao" required="true" requiredMessage="Campo Obrigatório" pattern="dd/MM/yyyy"  locale="pt_BR" timeZone="GMT-3">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </p:calendar>
+                        <p:message for="dataadmissao"/>
+
+                        <h:outputLabel for="rg" value="RG: *" />
+                        <p:inputText id="rg" value="#{funcionarioController.funcionario.rg}" required="true" requiredMessage="Campo Obrigatório" />
+                        <p:message for="rg" />
+
+                        <h:outputLabel for="cpf" value="CPF: *" />
+                        <p:inputMask id="cpf" value="#{funcionarioController.funcionario.cpf}" mask="999.999.999-99" required="true" requiredMessage="Campo Obrigatório">
+                            <f:validator validatorId="CpfValidator"/>
+                        </p:inputMask>
+                        <p:message for="cpf" />
+
+                        <h:outputLabel for="endereco" value="Endereço: *" />
+                        <p:inputText id="endereco" value="#{funcionarioController.funcionario.endereco}" required="true" requiredMessage="Campo Obrigatório" size="70"/>
+                        <p:message for="endereco" />
+
+                        <h:outputLabel for="numero" value="Numero:" />
+                        <p:inputText id="numero" value="#{funcionarioController.funcionario.numero}" />
+                        <p:message for="numero" />
+
+                        <h:outputLabel for="bairro" value="Bairro:" />
+                        <p:inputText id="bairro" value="#{funcionarioController.funcionario.bairro}" />
+                        <p:message for="bairro" />
+
+
+
+                        <h:outputLabel for="estado" value="Estado: *" />
+                        <h:selectOneMenu id="estado" value="#{funcionarioController.estado}" required="true" requiredMessage="Campo Obrigatório">
+
+                            <f:selectItem itemLabel="Selecione" itemDisabled="true"/>
+                            <f:selectItem itemLabel="Acre" itemValue="Acre"/>
+                            <f:selectItem itemLabel="Alagoas" itemValue="Alagoas"/>
+                            <f:selectItem itemLabel="Amapá" itemValue="Amapá"/>
+                            <f:selectItem itemLabel="Amazonas" itemValue="Amazonas"/>
+                            <f:selectItem itemLabel="Bahia" itemValue="Bahia"/>
+                            <f:selectItem itemLabel="Ceará" itemValue="Ceará"/>
+                            <f:selectItem itemLabel="Distrito Federal" itemValue="Distrito Federal"/>
+                            <f:selectItem itemLabel="Espírito Santo" itemValue="Espírito Santo"/>
+                            <f:selectItem itemLabel="Goías" itemValue="Goiás"/>
+                            <f:selectItem itemLabel="Maranhã" itemValue="Maranhão"/>
+                            <f:selectItem itemLabel="Mato Grosso" itemValue="Mato Grosso"/>
+                            <f:selectItem itemLabel="Mato Grosso do Sul" itemValue="Mato Grosso do Sul"/>
+                            <f:selectItem itemLabel="Minas Gerais" itemValue="Minas Gerais"/>
+                            <f:selectItem itemLabel="Pará" itemValue="Pará"/>
+                            <f:selectItem itemLabel="Paraíba" itemValue="Paraíba"/>
+                            <f:selectItem itemLabel="Paraná" itemValue="Paraná"/>
+                            <f:selectItem itemLabel="Pernambuco" itemValue="Pernambuco"/>
+                            <f:selectItem itemLabel="Piauí" itemValue="Piauí"/>
+                            <f:selectItem itemLabel="Rio de Janeiro" itemValue="Rio de Janeiro"/>
+                            <f:selectItem itemLabel="Rio Grande do Norte" itemValue="Rio Grande do Norte"/>
+                            <f:selectItem itemLabel="Rio Grande do Sul" itemValue="Rio Grande do Sul"/>
+                            <f:selectItem itemLabel="Rondônia" itemValue="Rondônia"/>
+                            <f:selectItem itemLabel="Roraima" itemValue="Roraima"/>
+                            <f:selectItem itemLabel="Santa Catarina" itemValue="Santa Catarina"/>
+                            <f:selectItem itemLabel="São Paulo" itemValue="São Paulo"/>
+                            <f:selectItem itemLabel="Sergipe" itemValue="Sergipe"/>
+                            <f:selectItem itemLabel="Tocantins" itemValue="Tocantins"/>
+                            <p:ajax update="cidade" event="change"/>
+
+                        </h:selectOneMenu>
+
+                        <p:message for="estado" />
+
+                        <h:outputLabel for="cidade" value="Cidade: *" />
+                        <h:selectOneMenu value="#{funcionarioController.funcionario.cidade}" id="cidade" converter="#{funcionarioController.converterCidade}" required="true" requiredMessage="Campo Obrigatório" >
+                            <f:selectItem itemLabel="Selecione" itemDisabled="true"/>
+                            <f:selectItems value="#{funcionarioController.cidades}"/>
+                        </h:selectOneMenu>
+                        <p:message for="cidade" />
+
+                        <h:outputLabel for="idade" value="Idade:" />
+                        <p:inputText id="idade" value="#{funcionarioController.funcionario.idade}" />
+                        <p:message for="idade" />
+
+                        <h:outputLabel for="sexo" value="Sexo: *" />
+                        <h:selectOneMenu id="sexo" value="#{funcionarioController.funcionario.sexo}"  required="true" requiredMessage="Campo Obrigatório">
+
+                            <f:selectItem itemLabel="Selecione" itemDisabled="true" />
+                            <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+                            <f:selectItem itemLabel="Feminino" itemValue="Feminino" />
+                        </h:selectOneMenu>
+                        <p:message for="sexo" />
+
+                    </h:panelGrid>
+
+                    <p:panel header="Novo Telefone">
+
+                        <h:panelGrid id="dadosTelefone" columns="3" style="margin-bottom:10px">
+                            <h:outputLabel for="tipoTel" value="Tipo de Telefone"/>
+                            <h:selectOneMenu value="#{funcionarioController.telefone.tipoTelefone}" id="tipoTel" >
+                                <f:selectItem itemLabel="Selecione" itemDisabled="true"/>
+                                <f:selectItems value="#{funcionarioController.tiposTelefones}"/>
+                            </h:selectOneMenu>
+
+                            <p:message for="tipoTel"/>
+                            <h:outputLabel for="numeroTel" value="Numero do Telefone:" />
+                            <p:inputMask id="numeroTel" value="#{funcionarioController.telefone.numero}" mask="(99)9999-9999">
+                            </p:inputMask>
+                            <p:message for="numeroTel"/>
+
+                            <p:commandButton actionListener="#{funcionarioController.addTelefone}" value="Adicionar Telefone" update="gridTelefone dadosTelefone infosFuncionario"/>
+                        </h:panelGrid>
+
+
+                        <p:dataTable  id="gridTelefone" var="telefone" value="#{funcionarioController.listarTelefones}" style="border: 0px" emptyMessage="Nenhum Telefone Encontrado">
+
+
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <h:outputText value="Telefones Cadastrados"/>
+                                </p:outputPanel>
+                            </f:facet>
+                            <p:column >
+
+
+                                <h:outputText value="#{telefone.tipoTelefone}"/>
+                            </p:column>
+                            <p:column >
+                                <h:outputText value="#{telefone.numero}" />
+                            </p:column>
+                            <p:column >
+
+                                <p:commandLink value="Excluir" actionListener="#{funcionarioController.selecionaTelefone}" oncomplete="dialogRemoverTel.show()" immediate="true">
+                                    <f:attribute name="telefone" value="#{telefone}"/>
+                                </p:commandLink>
+
+
+
+
+
+
+                            </p:column>
+
+                        </p:dataTable>
+
+
+
+                    </p:panel>
+                    <p:commandLink actionListener="#{funcionarioController.salvarFuncionario}" ajax="false" update="cpf" >
+                        <p:graphicImage value="/css/imagens/Salvar_1.png"/>
+                    </p:commandLink>
+                    <p:commandLink action="listaFuncionario" immediate="true" ajax="false" >
+                        <p:graphicImage value="/css/imagens/cancelar.png"/>
+                    </p:commandLink>
+
+
+
+
+                    <p:confirmDialog header="Remover Telefone" message="Confirma a exclusão?" widgetVar="dialogRemoverTel">
+
+                        <p:commandButton value="Sim" actionListener="#{funcionarioController.removeTelefone}" update="gridTelefone" oncomplete="dialogRemoverTel.hide()" />
+                        <p:commandButton value="Não" onclick="dialogRemoverTel.hide()" />
+
+
+
+                    </p:confirmDialog>
+                </h:form>
+
+
+
+
+            </p:panel>
+
+
+        </div>
+        <div id="menuDireito" >
+
+
+        </div >
+
+        <div id="rodape" >
+
+
+        </div>
+
+
+
+
+
+    </h:body>
+</html>

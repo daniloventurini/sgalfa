@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layout.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalho" >
+
+        </div>
+        <div id="menuCabecalho">
+            <oi:include src="/menu.xhtml"/>
+
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+
+            <center><p:graphicText value="Visualiza Atendimentos" fontSize="33" fontName="Verdana" fontStyle="italic" /></center>
+             <h:form prependId="false">
+            <p:panel header="Visualiza Atendimentos">
+               
+                    <h:panelGrid id="infosAtendimento" columns="1" style="margin-bottom:10px">
+
+                        <h:outputLabel value="Data: ${atendimentoController.atendimento.dataAtendimento}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputLabel>
+                        <h:outputLabel  value="Cliente: ${atendimentoController.atendimento.pessoa.nome}" />
+                        <h:outputLabel value="Funcionário: ${atendimentoController.atendimento.funcionario.nome}" />
+                        <h:outputLabel  value="Endereço: ${atendimentoController.atendimento.pessoa.endereco}" />
+                        <h:outputLabel  value="Número: ${atendimentoController.atendimento.pessoa.numero}" />
+                        <h:outputLabel for="status" value="Status: ${atendimentoController.atendimento.status}" />
+
+
+                    </h:panelGrid>
+
+                <p:panel header="Dados do Atendimento">
+                    <h:panelGrid id="valores" columns="2">
+
+
+
+                        <h:outputLabel  value="Valor do Serviço: ${atendimentoController.atendimento.valorServico}" /><br/>
+                        <h:outputLabel  value="Numero da Nota: ${atendimentoController.atendimento.numeroNota}" /><br/>
+                        <h:outputLabel  value="Observação: ${atendimentoController.atendimento.obs}" /><br/>
+                        <h:outputLabel  value="Observação Técnica: ${atendimentoController.atendimento.obsfunc}" /><br/>
+
+
+
+
+
+
+                    </h:panelGrid>
+
+                </p:panel>
+                 
+  </p:panel>
+
+             <p:commandLink action="listaAtendimento" immediate="true" ajax="false" >
+                        <p:graphicImage value="/css/imagens/cancelar.png"/>
+                    </p:commandLink>
+                </h:form>
+
+                  
+          
+
+
+        </div>
+        <div id="menuDireito" >
+
+
+        </div >
+
+        <div id="rodape" >
+
+
+        </div>
+
+
+
+
+
+    </h:body>
+</html>

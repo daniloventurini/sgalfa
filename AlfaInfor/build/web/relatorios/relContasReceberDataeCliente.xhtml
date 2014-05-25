@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layout.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalho" >
+
+        </div>
+        <div id="menuCabecalho">
+            <oi:include src="/menu.xhtml"/>
+
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+             <center><p:graphicText value="Relatório de Contas a Receber" fontSize="33" fontName="Verdana" fontStyle="italic" /></center>
+            <p:panel header="Relatório de Contas a Receber por Data">
+                <center> <h:form>
+                        <h:panelGrid id="infosRel" columns="3" style="margin-bottom:10px">
+                            <h:outputLabel for="cliente" value="Cliente:" />
+                            <p:inputText id="cliente" value="#{contasReceberController.filtro}" size="50"/>
+                            <p:message for="cliente"/>
+                            <h:outputLabel for="dtinicio" value="Data Inicial:" />
+                            <p:calendar id="dtinicio" value="#{contasReceberController.dtinicio}" navigator="true" pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-3" required="true" requiredMessage="Campo Obrigatório"/>
+                            <p:message for="dtinicio"/>
+                            <h:outputLabel for="dtFinal" value="Data Final:" />
+                            <p:calendar id="dtFinal" value="#{contasReceberController.dtfim}"  navigator="true" pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-3" required="true" requiredMessage="Campo Obrigatório"/>
+                            <p:message for="dtFinal"/>
+                        </h:panelGrid>
+
+                        <p:commandLink actionListener="#{contasReceberController.imprimeRelatorioDataeCliente}" update="infosRel"  ajax="false" >
+                            <p:graphicImage value="/css/imagens/imprimir.png"/>
+                        </p:commandLink>
+                        <p:commandLink action="/index.jsf" immediate="true" ajax="false" >
+                            <p:graphicImage value="/css/imagens/cancelar.png"/>
+                        </p:commandLink>
+
+
+
+                    </h:form></center>
+            </p:panel>
+        </div>
+        <div id="menuDireito" >
+
+
+        </div >
+
+        <div id="rodape" >
+
+
+        </div>
+
+
+
+
+
+    </h:body>
+</html>

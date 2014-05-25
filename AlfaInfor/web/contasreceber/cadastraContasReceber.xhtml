@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layout.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalho" >
+
+        </div>
+        <div id="menuCabecalho">
+
+            <oi:include src="/menu.xhtml" />
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+
+            <center><p:graphicText value="Cadastro de Contas a Receber" fontSize="33" fontName="Verdana" fontStyle="italic" /></center>
+            <p:panel header="Dados">
+                <h:form prependId="false">
+                    <h:panelGrid id="infoscontasReceber" columns="3" style="margin-bottom:10px">
+
+                        <h:outputLabel for="id" value="Código:" />
+                        <p:inputText id="id" value="#{contasReceberController.contasReceber.id}" readonly="true" />
+                        <p:message for="id"/>
+
+                        <h:outputLabel for="pessoa" value="Cliente: *" />
+                        <p:autoComplete widgetVar="pessoa" id="pessoa"  value="#{contasReceberController.contasReceber.pessoa}" completeMethod="#{contasReceberController.completaPessoa}"
+                                        var="pessoa" size="70" itemLabel="#{pessoa.nome} Cpf/Cnpj: #{pessoa.cpfCnpj}" itemValue="#{pessoa.id}" forceSelection="true" converter="#{contasReceberController.converterPessoa}" required="true" requiredMessage="Campo Obrigatório"/>
+                        <p:message for="pessoa"/>
+
+
+                        <h:outputLabel for="valor" value="Valor: *" />
+                        <p:inputText id="valor" value="#{contasReceberController.contasReceber.valor}" required="true" requiredMessage="Campo Obrigatório"/>
+                        <p:message for="valor"/>
+
+                        <h:outputLabel for="dataConta" value="Data: *" />
+                        <p:calendar id="dataConta" value="#{contasReceberController.contasReceber.dataConta}" navigator="true" required="true" requiredMessage="Campo Obrigatório" pattern="dd/MM/yyyy" locale="pr_BR" timeZone="GMT-3">
+                        </p:calendar>
+                        <p:message for="dataConta" />
+
+
+
+
+                        <h:outputLabel for="status" value="Status da Conta: *" />
+                        <h:selectOneMenu id="status" value="#{contasReceberController.contasReceber.status}"  required="true" requiredMessage="Campo Obrigatório">
+
+                            <f:selectItem itemLabel="Selecione" itemDisabled="true" />
+                            <f:selectItem itemLabel="Ativo" itemValue="Ativo" />
+                            <f:selectItem itemLabel="Liquidado" itemValue="Liquidado" />
+                            <f:selectItem itemLabel="Estornada" itemValue="Estornada" />
+                        </h:selectOneMenu>
+                        <p:message for="status" />
+
+                        <h:outputLabel for="dataPagamento" value="Data de Pagamento: *" />
+                        <p:calendar id="dataPagamento" value="#{contasReceberController.contasReceber.dataPagamento}" pattern="dd/MM/yyyy" navigator="true"  timeZone="GMT-3">
+                        </p:calendar>
+                        <p:message for="dataPagamento" />
+
+                        <h:outputLabel for="obs" value="Observação: " />
+                        <p:inputTextarea id="obs" value="#{contasReceberController.contasReceber.obs}" style="width:500px;height:100px;"/>
+                        <p:message for="obs"/>
+
+
+                    </h:panelGrid>
+
+                    <p:commandLink actionListener="#{contasReceberController.salvarContasReceber}" action="listaContasReceber" ajax="false" >
+                        <p:graphicImage value="/css/imagens/Salvar_1.png"/>
+                    </p:commandLink>
+                    <p:commandLink action="listaContasReceber" immediate="true" ajax="false" >
+                        <p:graphicImage value="/css/imagens/cancelar.png"/>
+                    </p:commandLink>
+                </h:form>
+
+            </p:panel>
+        </div>
+        <div id="menuDireito" >
+
+
+        </div >
+
+        <div id="rodape" >
+
+
+        </div>
+
+
+
+
+    </h:body>
+</html>

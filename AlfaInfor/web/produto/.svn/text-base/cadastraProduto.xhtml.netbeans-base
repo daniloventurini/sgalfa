@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layout.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalho" >
+
+        </div>
+        <div id="menuCabecalho">
+            <oi:include src="/menu.xhtml"/>
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+
+            <center><p:graphicText value="Cadastro de Produto" fontSize="33" fontName="Verdana" fontStyle="italic" /></center>
+
+            <h:form id="form">
+
+                <p:panel header="Imagens">
+                    <h:panelGrid columns="2" id="imagemGrid" style=" width: 200px; height: 200px">
+                        <h:outputLabel for="botaoImagem" value="Imagem:"/>
+
+                        <p:fileUpload  sizeLimit="204800" auto="true" id="botaoImagem" widgetVar="uploader" label="Procurar..."  fileUploadListener="#{produtoController.handleFileUpload}"
+                                       allowTypes="*.jpg;*.png;*.gif;" description="Images" update="imagem" multiple="false" customUI="true"/>
+                        <p:graphicImage value="#{produtoController.imagem}" id="imagem" cache="false" style=" width: 200px; height: 200px"/>
+                    </h:panelGrid>
+
+                </p:panel>
+                <p:panel header="Dados">
+
+                    <p:focus/>
+
+
+
+
+                    <h:panelGrid id="infosProduto" columns="3" style="margin-bottom:10px">
+
+
+                        <h:outputLabel for="nome" value="Nome: *" />
+                        <p:inputText id="nome" value="#{produtoController.produto.nomeProduto}" required="true" requiredMessage="Campo Obrigatório" size="70"/>
+                        <p:message for="nome" />
+
+                        <h:outputLabel for="data" value="Data: *" />
+                        <p:calendar id="data" value="#{produtoController.produto.dataCadastro}" navigator="true" required="true" requiredMessage="Campo Obrigatório" pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-3">
+                        </p:calendar>
+                        <p:message for="data" />
+
+
+                        <h:outputLabel for="marca" value="Marca: *" />
+                        <p:inputText id="marca" value="#{produtoController.produto.marca}" required="true" requiredMessage="Campo Obrigatório"  size="70" />
+                        <p:message for="marca" />
+
+                        <h:outputLabel for="qnt" value="Quantidade: *" />
+                        <p:inputText id="qnt" value="#{produtoController.produto.qnt}" required="true" requiredMessage="Campo Obrigatório" />
+                        <p:message id="messageqnt" for="qnt" />
+
+                        <h:outputLabel for="qntMinima" value="Quantidade Minima: *" />
+                        <p:inputText id="qntMinima" value="#{produtoController.produto.qntMinima}" required="true" requiredMessage="Campo Obrigatório" />
+                        <p:message for="qntMinima" />
+
+                        <h:outputLabel for="valorCompra" value="Valor de Compra: *" />
+                        <p:inputText id="valorCompra" value="#{produtoController.produto.valorCompra}" required="true" requiredMessage="Campo Obrigatório"  >
+                            <f:convertNumber integerOnly="true" minIntegerDigits="1"  />
+                            <f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2"/>
+                        </p:inputText>
+                        <p:message for="valorCompra" />
+
+                        <h:outputLabel for="valor" value="Valor: *" />
+                        <p:inputText id="valor" value="#{produtoController.produto.valor}"   required="true" requiredMessage="Campo Obrigatório" >
+                            <f:convertNumber integerOnly="true" minIntegerDigits="1"  />
+                            <f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2"/>
+
+                        </p:inputText>
+                        <p:message for="valor" />
+
+                        <h:outputLabel for="descricao" value="Descrição:" />
+                        <p:inputText id="descricao" value="#{produtoController.produto.descricao}" size="70"/>
+                        <p:message for="descricao" />
+
+                        <h:outputLabel for="grupo" value="Grupo: *" />
+                        <h:selectOneMenu value="#{produtoController.produto.grupo}" id="grupo" converter="#{produtoController.grupoconverter}" required="true" requiredMessage="Campo Obrigatório">
+                            <f:selectItem itemLabel="Selecione" itemDisabled="true"/>
+                            <f:selectItems value="#{produtoController.grupos}"/>
+                        </h:selectOneMenu>
+                        <p:message for="grupo" />
+
+
+                    </h:panelGrid>
+                    <p:commandLink actionListener="#{produtoController.salvarProduto}" update="messageqnt" ajax="false" >
+                        <p:graphicImage value="/css/imagens/Salvar_1.png"/>
+                    </p:commandLink>
+                    <p:commandLink action="listaProduto" immediate="true" ajax="false" >
+                        <p:graphicImage value="/css/imagens/cancelar.png"/>
+                    </p:commandLink>
+                </p:panel>
+            </h:form>
+
+
+        </div>
+        <div id="menuDireito" >
+
+
+        </div >
+
+        <div id="rodape" >
+
+
+        </div>
+
+
+
+
+
+    </h:body>
+</html>
+

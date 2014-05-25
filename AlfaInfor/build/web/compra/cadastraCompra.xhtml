@@ -1,0 +1,322 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layout.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalho" >
+
+        </div>
+        <div id="menuCabecalho">
+            <oi:include src="/menu.xhtml"/>
+
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+
+            <center><p:graphicText value="Cadastro de Compras" fontSize="33" fontName="Verdana" fontStyle="italic" /></center>
+            <h:form id="form">
+
+                <p:panel header="Informações">
+                    <h:panelGrid columns="3" id="grid">
+                        <h:outputLabel for="dataCompra" value="Data: *" />
+                        <p:calendar value="#{compraController.compra.dataCompra}" navigator="true" id="dataCompra" required="true" requiredMessage="Por favor preencha o campo Data" pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-3">
+                        </p:calendar>
+                        <p:message for="dataCompra"/>
+
+                        <h:outputLabel for="pessoa" value="Fornecedor: *" />
+                        <p:autoComplete  widgetVar="pessoa" id="pessoa"  value="#{compraController.compra.pessoa}" completeMethod="#{compraController.completaPessoa}"
+                                         var="pessoa" size="70" itemLabel="#{pessoa.nome} Cpf/Cnpj: #{pessoa.cpfCnpj}" itemValue="#{pessoa.id}" forceSelection="true" converter="#{compraController.pessoaConverter}"  required="true" requiredMessage="Campo Obrigatório">
+
+                        </p:autoComplete>
+                        <p:message for="pessoa"/>
+
+                        <h:outputLabel for="pagamento" value="Forma de Pagamento:" />
+                        <h:selectOneMenu id="pagamento" value="#{compraController.compra.pagamento}">
+                            <f:selectItem itemLabel="Selecione" itemDisabled="true"/>
+                            <f:selectItem itemLabel="A Vista" itemValue="vista"/>
+                            <f:selectItem itemLabel="A Prazo" itemValue="prazo"/>
+                            <f:selectItem itemLabel="Cheque" itemValue="Cheque"/>
+                            <f:selectItem itemLabel="Boleto" itemValue="Boleto"/>
+                            <p:ajax update="parcelas numParcelas entrada" listener="#{compraController.travaCampos}" event="change"/>
+                        </h:selectOneMenu>
+                        <p:message for="pagamento"/>
+
+
+                        <h:outputLabel for="funcionario" value="Funcionario: *" />
+                        <h:selectOneMenu id="funcionario" value="#{compraController.compra.funcionario}" converter="#{compraController.funcionarioConverter}" required="true" requiredMessage="Campo Obrigatório">
+                            <f:selectItem itemLabel="Selecione" itemDisabled="true"/>
+                            <f:selectItems value="#{compraController.funcionarios}"/>
+
+                        </h:selectOneMenu>
+                        <p:message for="funcionario"/>
+
+                    </h:panelGrid>
+                </p:panel>
+                <p:panel id="painelItens" header="Produtos">
+                    <h:panelGrid columns="3" id="gridItens">
+
+                        <h:outputLabel for="produto" value="Produtos: *" />
+                        <h:selectOneMenu id="produto" value="#{compraController.itensCompra.produto}" converter="#{compraController.produtoConverter}">
+                            <f:selectItem itemLabel="Selecione" itemDisabled="true"/>
+                            <f:selectItems value="#{compraController.produtos}"/>
+
+                        </h:selectOneMenu>
+                        <p:message id="produtomessage" for="produto"/>
+
+
+
+
+                        <h:outputLabel for="qnt" value="Quantidade:"/>
+                        <p:spinner id="qnt"
+                                   value="#{compraController.itensCompra.quantidade}" min="1" max="100"/>
+                        <p:message id="qntmessage" for="qnt"/>
+
+
+
+                    </h:panelGrid>
+                    <p:message id="message" for="gridItens" />
+                    <p:commandButton value="Add" actionListener="#{compraController.addItens}" update="tabela2 parcelas message "/>
+
+
+                    <p:dataGrid id="tabela2" var="itens" value="#{compraController.listarItens}" style="border: 10px"  columns="2" effect="true" >
+
+                        <p:column >
+
+                            <h:panelGrid columns="1" style="text-align: center; width:100%">
+                                <p:graphicImage value="/imagem/#{itens.produto.imagem}" id="imagem" cache="false" style="width: 250px; height: 250px"/>
+                                <h:outputText value="Nome: #{itens.produto.nomeProduto}" />
+                                <h:outputText value="Quantidade: #{itens.quantidade}" />
+                                <h:outputText value="Valor Unitário: #{itens.valor}" />
+                                <h:outputText value="Valor Total: #{itens.total}" />
+                                <p:commandButton value="Excluir" actionListener="#{compraController.selecionaIten}" oncomplete="dialogRemover.show()" immediate="true">
+                                    <f:attribute name="itens" value="#{itens}"/>
+                                </p:commandButton>
+                            </h:panelGrid>
+
+                        </p:column>
+
+                    </p:dataGrid>
+                    <p:panel id="painelDesconto"  header="Desconto" >
+                        <h:panelGrid id="parcelas" columns="3">
+                            <h:outputLabel for="numParcelas" value="Numero de Parcelas:" />
+                            <p:spinner id="numParcelas"
+                                       value="#{compraController.compra.qntParcelas}" min="1" max="100" disabled="#{compraController.travaCompra ? false : true}"/>
+                            <p:message for="numParcelas"/>
+
+                            <h:outputLabel for="desconto" value="Desconto:"  />
+                            <p:inputText id="desconto" value="#{compraController.compra.desconto}" > <f:convertNumber pattern="#,##0.00##"/></p:inputText>
+                            <p:message for="desconto"/>
+
+                            <h:outputLabel for="entrada" value="Entrada:"  />
+                            <p:inputText id="entrada"  value="#{compraController.compra.entrada}" disabled="#{compraController.travaCompra ? false : true}"> <f:convertNumber pattern="#,##0.00##"/></p:inputText>
+                            <p:message for="entrada"/>
+
+                            <h:outputLabel for="totalgeral" value="Total Geral:"/>
+                            <p:inputText id="totalgeral" value="R$ #{compraController.totalGeral}" readonly="true"/>
+                            <p:message for="totalgeral"/>
+
+                            <h:outputLabel for="vcdesconto" value="Valor com Desconto:"/>
+                            <p:inputText id="vcdesconto" value="R$ #{compraController.compra.valorTotal}" readonly="true"/>
+                            <p:message for="vcdesconto"/>
+
+                            <p:commandButton value="Calcular" actionListener="#{compraController.calcular}" update="vcdesconto tabelaContas" />
+
+                        </h:panelGrid>
+                    </p:panel>
+
+
+
+
+
+
+                    <p:dataTable id="tabelaContas" var="contas" value="#{compraController.listarContas}" style="border: 10px"  paginator="true" rows="5" emptyMessage="Contas nao Encontradas">
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Parcela"/>
+                            </f:facet>
+                            <h:outputText value="#{contas.numeroParcelas}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Data"/>
+                            </f:facet>
+                            <h:outputText value="#{contas.dataPagamento}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Valor"/>
+                            </f:facet>
+                            <h:outputText value="R$ #{contas.valor}" />
+                        </p:column>
+
+                        <p:column rendered="#{compraController.compra.pagamento eq 'Cheque'}">
+                            <f:facet name="header">
+                                <h:outputText value="Cheque"/>
+                            </f:facet>
+                            <p:commandButton oncomplete="dialogCheques.show()" update="formCheque" value="Cheques" actionListener="#{compraController.setaConta}" >
+                                <f:attribute value="#{contas}" name="contas"/>
+                            </p:commandButton>
+
+
+                        </p:column>
+
+
+
+
+
+
+                    </p:dataTable>
+
+
+
+
+                </p:panel>
+
+                <p:commandLink actionListener="#{compraController.salvar}" update="form grid message" ajax="false" >
+                    <p:graphicImage value="/css/imagens/Salvar_1.png"/>
+                </p:commandLink>
+                <p:commandLink action="listaCompra" immediate="true" ajax="false" >
+                    <p:graphicImage value="/css/imagens/cancelar.png"/>
+                </p:commandLink>
+
+
+                <p:confirmDialog header="Remover Item" message="Confirma a exclusão?" widgetVar="dialogRemover">
+
+                    <p:commandButton value="Sim" actionListener="#{compraController.excluirItens}" update="painelItens" oncomplete="dialogRemover.hide()" />
+                    <p:commandButton value="Não" onclick="dialogRemover.hide()" />
+
+
+                </p:confirmDialog>
+            </h:form>
+
+
+            <p:dialog header="Cheque"  widgetVar="dialogCheques" modal="true" width="700" >
+                <h:form id="formCheque">
+                    <h:panelGrid id="gridcheque" columns="3" >
+                        <h:outputLabel for="emitente" value="Emitente:"/>
+                        <p:inputText id="emitente" value="#{compraController.cheque.emitente}"  size="70"/>
+                        <p:message for="emitente"/>
+
+                        <h:outputLabel for="numero" value="Numero do Cheque: "/>
+                        <p:inputText id="numero" value="#{compraController.cheque.numero}"/>
+                        <p:message for="numero"/>
+
+                        <h:outputLabel for="conta" value="Conta: "/>
+                        <p:inputText id="conta" value="#{compraController.cheque.conta}"/>
+                        <p:message for="conta"/>
+
+                        <h:outputLabel for="agencia" value="Agência: "/>
+                        <p:inputText id="agencia" value="#{compraController.cheque.agencia}"/>
+                        <p:message for="agencia"/>
+
+                        <h:outputLabel for="valor" value="Valor: "/>
+                        <p:inputText id="valor" value="#{compraController.cheque.valor}" />
+                        <p:message for="valor"/>
+
+                        <h:outputLabel for="banco" value="Banco: "/>
+                        <p:inputText id="banco" value="#{compraController.cheque.banco}"  size="50"/>
+                        <p:message for="banco"/>
+
+                        <h:outputLabel for="data" value="Data : *" />
+                        <p:calendar value="#{compraController.cheque.dataCheque}" id="data" pattern="dd/MM/yyyy"  locale="pt_BR" timeZone="GMT-3">
+                        </p:calendar>
+                    </h:panelGrid>
+                    <p:commandButton value="Add Cheque" actionListener="#{compraController.adcionaCheque}" update="formCheque:tabelacheque formCheque:gridcheque" />
+
+                    <p:dataTable id="tabelacheque" var="cheque" value="#{compraController.listarCheques}" emptyMessage="Nenhum Cheque Cadastrado">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Emitente"/>
+                            </f:facet>
+                            <h:outputText value="#{cheque.emitente}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Banco"/>
+                            </f:facet>
+                            <h:outputText value="#{cheque.banco}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Número - Conta - Agência"/>
+                            </f:facet>
+                            <h:outputText value="#{cheque.numero} - #{cheque.conta} - #{cheque.agencia}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Valor"/>
+                            </f:facet>
+                            <h:outputText value="#{cheque.valor}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Data"/>
+                            </f:facet>
+                            <h:outputText value="#{cheque.dataCheque}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-3"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Excluir" actionListener="#{compraController.selecionaCheque}" oncomplete="dialogCheque.show()" update="formCheques" immediate="true">
+                                <f:attribute name="cheque" value="#{cheque}"/>
+                            </p:commandButton>
+
+                        </p:column>
+
+
+                    </p:dataTable>
+
+
+
+                </h:form>
+
+
+            </p:dialog>
+
+
+            <p:confirmDialog header="Remover Cheque" message="Confirma a exclusão?" widgetVar="dialogCheque">
+                <h:form id="formCheques">
+                    <p:commandButton value="Sim" actionListener="#{compraController.removecheque}" update="formCheque:tabelacheque" oncomplete="dialogCheque.hide()" />
+                    <p:commandButton value="Não" onclick="dialogCheque.hide()" />
+
+                </h:form>
+            </p:confirmDialog>
+
+
+
+
+
+        </div>
+        <div id="menuDireito" >
+
+
+        </div >
+
+        <div id="rodape" >
+
+
+        </div>
+
+
+
+
+
+    </h:body>
+</html>

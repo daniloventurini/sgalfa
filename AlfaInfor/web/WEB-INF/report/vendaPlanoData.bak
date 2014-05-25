@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="vendaPlanoData"
+
+		 language="groovy"		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="20"
+		 rightMargin="20"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<style 
+		name="Title"
+		isDefault="false"
+		fontName="Arial"
+		fontSize="26"
+		isBold="true"
+		pdfFontName="Helvetica-Bold"
+	>
+	</style>
+	<style 
+		name="SubTitle"
+		isDefault="false"
+		forecolor="#666666"
+		fontName="Arial"
+		fontSize="18"
+	>
+	</style>
+	<style 
+		name="Column header"
+		isDefault="false"
+		forecolor="#666666"
+		fontName="Arial"
+		fontSize="12"
+		isBold="true"
+	>
+	</style>
+	<style 
+		name="Detail"
+		isDefault="false"
+		fontName="Arial"
+		fontSize="12"
+	>
+	</style>
+
+	<parameter name="dt_inicio" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2011/01/01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dt_fim" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2011/12/25"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL"><![CDATA[SELECT
+     vendaplano.`dataVenda` AS vendaplano_dataVenda,
+     vendaplano.`vdesconto` AS vendaplano_vdesconto,
+     vendaplano.`vcomdesconto` AS vendaplano_vcomdesconto,
+     pessoa.`nome` AS pessoa_nome,
+     plano.`descricao` AS plano_descricao,
+     pessoafisica.`cpf` AS pessoafisica_cpf
+FROM
+     `pessoa` pessoa INNER JOIN `vendaplano` vendaplano ON pessoa.`id` = vendaplano.`pessoa_id`
+     INNER JOIN `plano` plano ON vendaplano.`plano_id` = plano.`id`
+     INNER JOIN `pessoafisica` pessoafisica ON pessoa.`id` = pessoafisica.`id`
+where vendaplano.dataVenda between $P{dt_inicio} and  $P{dt_fim}]]></queryString>
+
+	<field name="pessoa_nome" class="java.lang.String"/>
+	<field name="pessoafisica_cpf" class="java.lang.String"/>
+	<field name="plano_descricao" class="java.lang.String"/>
+	<field name="vendaplano_dataVenda" class="java.sql.Date"/>
+	<field name="vendaplano_vdesconto" class="java.math.BigDecimal"/>
+	<field name="vendaplano_vcomdesconto" class="java.math.BigDecimal"/>
+
+	<variable name="VALOR_TOTAL" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{vendaplano_vcomdesconto}]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_DESCONTO" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{vendaplano_vdesconto}]]></variableExpression>
+	</variable>
+	<variable name="dataCorrente" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<initialValueExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format(new Date())]]></initialValueExpression>
+	</variable>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="118"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						style="SubTitle"
+						x="152"
+						y="89"
+						width="245"
+						height="22"
+						key="staticText"/>
+					<box></box>
+					<textElement textAlignment="Justified">
+						<font/>
+					</textElement>
+				<text><![CDATA[Relatório de Venda de Planos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="152"
+						y="17"
+						width="334"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font size="15"/>
+					</textElement>
+				<text><![CDATA[Rua Duque de Caxias, 819     Terra Rica - PR]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="67"
+						y="37"
+						width="486"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font size="15"/>
+					</textElement>
+				<text><![CDATA[                    Fone: (44) 3441-1313          E-mail: alfainfor@terrarica.net]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="426"
+						y="77"
+						width="113"
+						height="21"
+						key="textField-1"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Total de Registros: " + $V{REPORT_COUNT}]]></textFieldExpression>
+				</textField>
+				<image  evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="207"
+						height="111"
+						key="image"/>
+					<box></box>
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.lang.String"><![CDATA["D:\\logoalfa cópia.jpg"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement
+						x="152"
+						y="57"
+						width="387"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font size="15"/>
+					</textElement>
+				<text><![CDATA[CNPJ:03.952.767.0001/09      IE:902.17001-40]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="455"
+						y="89"
+						width="71"
+						height="17"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{dataCorrente}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="429"
+						y="89"
+						width="42"
+						height="17"
+						key="staticText-3"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Data:]]></text>
+				</staticText>
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="16"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						style="Column header"
+						x="0"
+						y="-1"
+						width="92"
+						height="15"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Cliente:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						style="Column header"
+						x="150"
+						y="-1"
+						width="92"
+						height="15"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Cpf:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						style="Column header"
+						x="242"
+						y="-1"
+						width="83"
+						height="15"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Plano:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						style="Column header"
+						x="325"
+						y="-1"
+						width="72"
+						height="15"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Dt. Venda:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						style="Column header"
+						x="397"
+						y="-1"
+						width="63"
+						height="15"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Desconto:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						style="Column header"
+						x="460"
+						y="-1"
+						width="92"
+						height="15"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Valor Final:]]></text>
+				</staticText>
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="16"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Detail"
+						x="0"
+						y="0"
+						width="150"
+						height="15"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{pessoa_nome}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Detail"
+						x="150"
+						y="0"
+						width="92"
+						height="15"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{pessoafisica_cpf}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Detail"
+						x="242"
+						y="0"
+						width="83"
+						height="15"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{plano_descricao}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="dd/MM/yyyy" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Detail"
+						x="325"
+						y="0"
+						width="72"
+						height="15"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$F{vendaplano_dataVenda}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Detail"
+						x="397"
+						y="0"
+						width="63"
+						height="15"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{vendaplano_vdesconto}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Detail"
+						x="460"
+						y="0"
+						width="92"
+						height="15"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{vendaplano_vcomdesconto}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="45"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="364"
+						y="0"
+						width="74"
+						height="45"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{TOTAL_DESCONTO}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="486"
+						y="0"
+						width="67"
+						height="45"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{VALOR_TOTAL}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="426"
+						y="0"
+						width="73"
+						height="45"
+						key="staticText-1"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Valor Total:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="259"
+						y="0"
+						width="128"
+						height="45"
+						key="staticText-2"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Total dos Descontos:]]></text>
+				</staticText>
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="20"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Column header"
+						x="433"
+						y="0"
+						width="80"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font size="10" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Column header"
+						x="513"
+						y="0"
+						width="40"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font size="10" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="EEEEE dd MMMMM yyyy" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Column header"
+						x="0"
+						y="0"
+						width="197"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font size="10" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

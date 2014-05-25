@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layout.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalho" >
+
+        </div>
+        <div id="menuCabecalho">
+
+            <oi:include src="/menu.xhtml"/>
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+
+            <center><p:graphicText value="Lista de Usuários" fontSize="33" fontName="Verdana" fontStyle="italic" /></center>
+
+            <h:form  prependId="false">
+                <p:commandLink actionListener="#{usuarioController.prepararAdicionarUsuario}" action="cadastraUsuario" ajax="false" >
+                    <p:graphicImage value="/css/imagens/novo.png"/>
+                </p:commandLink>
+                <p:message id="message" for="tabela"/>
+
+                <p:dataTable widgetVar="teste"  id="tabela" var="usuario"  value="#{usuarioController.listarUsuarios}" style="border: 10px" rows="5" dynamic="true" paginator="true" emptyMessage="Nenhum Registro Encontrado">
+
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Busca:"/>
+                            <p:inputText id="globalFilter" onkeyup="teste.filter()" size="70"/>
+                        </p:outputPanel>
+
+
+                    </f:facet>
+                    <p:column sortBy="#{usuario.funcionario.nome}"  filterBy="#{usuario.funcionario.nome}"  rendered="true" >
+                        <f:facet name="header" >
+                            <h:outputText value="Nome" />
+                        </f:facet>
+                        <h:outputText value="#{usuario.funcionario.nome}" />
+                    </p:column>
+                    <p:column filterBy="#{usuario.login}" sortBy="#{usuario.login}" rendered="true">
+                        <f:facet name="header">
+                            <h:outputText value="Login"/>
+                        </f:facet>
+                        <h:outputText value="#{usuario.login}"/>
+                    </p:column>
+
+
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Opções"/>
+                        </f:facet>
+                        <p:commandLink title="Alterar" actionListener="#{usuarioController.prepararAlterarUsuario}"  action="cadastraUsuario" ajax="false" >
+                            <p:graphicImage value="/css/imagens/altera.png"/>
+                            <f:attribute name="usuario" value="#{usuario}"/>
+                        </p:commandLink>
+
+                        <p:commandLink title="Excluir"  actionListener="#{usuarioController.prepararAlterarUsuario}"  update="formRemover" oncomplete="dialogRemover.show()" >
+                            <p:graphicImage value="/css/imagens/delete.png"/>
+                            <f:attribute name="usuario" value="#{usuario}" />
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+
+                <p:commandLink ajax="false"  >
+                    <p:graphicImage value="/css/imagens/pdf.png"/>
+                    <p:dataExporter target="tabela" type="pdf" fileName="usuario" excludeColumns="2" encoding="Cp1254" preProcessor="#{usuarioController.preProcessPDF}"  />
+
+                </p:commandLink>
+
+                <p:commandLink ajax="false" >
+                    <p:graphicImage value="/css/imagens/excel.png"/>
+                    <p:dataExporter target="tabela" type="xls" fileName="usuario" excludeColumns="2" encoding="Cp1254"   />
+
+                </p:commandLink>
+
+                <p:commandLink ajax="false"  >
+                    <p:graphicImage value="/css/imagens/csv.png"/>
+                    <p:dataExporter target="tabela" type="csv" fileName="usuario" excludeColumns="2" encoding="Cp1254"   />
+
+                </p:commandLink>
+
+                <p:commandLink ajax="false"  >
+                    <p:graphicImage value="/css/imagens/xml.png"/>
+                    <p:dataExporter target="tabela" type="xml" fileName="usuario" excludeColumns="2" encoding="Cp1254"   />
+
+                </p:commandLink>
+                <br/>
+            </h:form>
+
+
+
+        </div>
+        <div id="menuDireito" >
+
+
+        </div >
+
+        <div id="rodape" >
+
+
+        </div>
+        <h:form>
+            <p:confirmDialog header="Remover Usuario" message="Confirma a exclusão?" widgetVar="dialogRemover" showEffect="bounce" hideEffect="explode" height="200">
+
+                <p:commandButton value="Sim"  actionListener="#{usuarioController.excluirUsuario}"  action="listaUsuario" update="tabela message"  oncomplete="dialogRemover.hide()" />
+                <p:commandButton value="Não" onclick="dialogRemover.hide()" />
+
+
+            </p:confirmDialog>
+
+
+        </h:form>
+
+
+    </h:body>
+</html>

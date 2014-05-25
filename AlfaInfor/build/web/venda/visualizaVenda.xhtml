@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layout.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalho" >
+
+        </div>
+        <div id="menuCabecalho">
+            <oi:include src="/menu.xhtml"/>
+
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+
+            <center><p:graphicText value="Visualiza Venda" fontSize="33" fontName="Verdana" fontStyle="italic" /></center>
+            <h:form id="form">
+
+                <p:panel header="Informações">
+                    <h:panelGrid columns="1" id="grid">
+                        <h:outputLabel  value="Data:  ${vendaController.venda.dataVenda}" />
+                        <h:outputLabel value="Cliente: ${vendaController.venda.pessoa.nome}" />
+                        <h:outputLabel  value="CPF/CNPJ:  ${vendaController.venda.pessoa.cpfCnpj} " />
+                        <h:outputLabel  value="Forma de Pagamento: ${vendaController.venda.pagamento}" />
+                        <h:outputLabel  value="Funcionario: ${vendaController.venda.funcionario.nome}" />
+
+
+
+
+
+                    </h:panelGrid>
+                </p:panel>
+
+
+
+
+
+
+                <p:dataGrid id="tabela2" var="itens" value="#{vendaController.listarItens}" style="border: 10px"  columns="2" effect="true" >
+
+                    <p:column >
+
+                        <h:panelGrid columns="1" style="text-align: center; width:100%">
+                            <p:graphicImage value="/imagem/#{itens.produto.imagem}" id="imagem" cache="false" style="width: 250px; height: 250px"/>
+                            <h:outputText value="Nome: #{itens.produto.nomeProduto}" />
+                            <h:outputText value="Quantidade: #{itens.quantidade}" />
+                            <h:outputText value="Valor Unitário: #{itens.valor}" />
+                            <h:outputText value="Valor Total: #{itens.total}" />
+
+                        </h:panelGrid>
+
+                    </p:column>
+
+                </p:dataGrid>
+
+
+
+
+
+
+
+
+
+
+                <p:panel id="painelDesconto"  header="Desconto" >
+                    <h:panelGrid id="parcelas" columns="1">
+                        <h:outputLabel  value="Numero de Parcelas: ${vendaController.venda.qntParcelas}" />
+
+
+                        <h:outputLabel  value="Desconto: ${vendaController.venda.desconto}" />
+
+
+                        <h:outputLabel  value="Total Geral: ${vendaController.totalGeral}"/>
+
+
+                        <h:outputLabel  value="Valor com Desconto: ${vendaController.venda.valorTotal}"/>
+
+
+
+
+                    </h:panelGrid>
+                </p:panel>
+
+
+
+
+
+
+                <p:dataTable id="tabelaContas" var="contas" value="#{vendaController.listarContas}" style="border: 10px"  paginator="true" rows="5" emptyMessage="Contas nao Encontradas">
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value=""/>
+                        </f:facet>
+                        <h:outputText value="#{contas.numeroParcelas}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Data"/>
+                        </f:facet>
+                        <h:outputText value="#{contas.dataPagamento}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Valor"/>
+                        </f:facet>
+                        <h:outputText value="#{contas.valor}" />
+                    </p:column>
+
+
+
+
+
+
+
+
+                </p:dataTable>
+
+
+
+
+                <p:commandLink action="listaVenda" immediate="true" ajax="false" >
+                    <p:graphicImage value="/css/imagens/cancelar.png"/>
+                </p:commandLink>
+
+
+
+
+            </h:form>
+
+
+
+
+
+        </div>
+        <div id="menuDireito" >
+
+
+        </div >
+
+        <div id="rodape" >
+
+
+        </div>
+
+
+
+
+
+    </h:body>
+</html>

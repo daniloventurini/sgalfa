@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layout.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalho" >
+          
+        </div>
+        <div id="menuCabecalho">
+
+            <oi:include src="/menu.xhtml" />
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+
+           <center><p:graphicText value="Cadastro de Equipamentos" fontSize="33" fontName="Verdana" fontStyle="italic" /></center>
+            <p:panel header="Dados">
+            <h:form prependId="false">
+                <h:panelGrid id="infosequipamentos" columns="3" style="margin-bottom:10px">
+           
+                   <h:outputLabel for="nome" value="Nome: *" />
+                    <p:inputText id="nome" value="#{equipamentoController.equipamento.nome}" required="true" requiredMessage="Campo Obrigatório" size="70"/>
+                    <p:message for="nome"/>
+
+                     <h:outputLabel for="marca" value="Marca: *" />
+                     <p:inputText id="marca" value="#{equipamentoController.equipamento.marca}" required="true" requiredMessage="Campo Obrigatório" size="70"/>
+                    <p:message for="marca"/>
+
+                     <h:outputLabel for="descricao" value="Descrição: *" />
+                     <p:inputText id="descricao" value="#{equipamentoController.equipamento.descricao}" required="true" requiredMessage="Campo Obrigatório" size="70"/>
+                    <p:message for="descricao"/>
+
+                     <h:outputLabel for="cor" value="Cor: *" />
+                     <p:inputText id="cor" value="#{equipamentoController.equipamento.cor}" required="true" requiredMessage="Campo Obrigatório"/>
+                    <p:message for="cor"/>
+                                    
+
+                    <h:outputLabel for="status" value="Status do Eq.*" />
+                    <h:selectOneMenu id="status" value="#{equipamentoController.equipamento.status}"  required="true" requiredMessage="Campo Obrigatório">
+
+                        <f:selectItem itemLabel="Selecione" itemDisabled="true" />
+                        <f:selectItem itemLabel="Liberado" itemValue="Liberado" />
+                        <f:selectItem itemLabel="Emprestado" itemValue="Emprestado" />
+                    </h:selectOneMenu>
+                    <p:message for="status" />
+
+                      <h:outputLabel for="obs" value="Observação: " />
+                      <p:inputTextarea id="obs" value="#{equipamentoController.equipamento.obs}" style="width:500px;height:100px;"  />
+                    <p:message for="obs"/>
+
+
+                </h:panelGrid>
+                <p:commandLink actionListener="#{equipamentoController.salvarEquipamento}" action="listaEquipamento" ajax="false" >
+                        <p:graphicImage value="/css/imagens/Salvar_1.png"/>
+                    </p:commandLink>
+                    <p:commandLink action="listaEquipamento" immediate="true" ajax="false" >
+                        <p:graphicImage value="/css/imagens/cancelar.png"/>
+                    </p:commandLink>
+            </h:form>
+
+</p:panel>
+        </div>
+        <div id="menuDireito" >
+
+
+        </div >
+
+        <div id="rodape" >
+
+
+        </div>
+
+
+
+
+    </h:body>
+</html>

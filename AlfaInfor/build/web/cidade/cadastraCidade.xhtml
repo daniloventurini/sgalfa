@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layout.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalho" >
+
+        </div>
+        <div id="menuCabecalho">
+            <oi:include src="/menu.xhtml"/>
+
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+
+            <center><p:graphicText value="Cadastro de Cidades" fontSize="33" fontName="Verdana" fontStyle="italic" /></center>
+            <p:panel header="Dados">
+                <h:form prependId="false">
+                    <h:panelGrid id="infosCidade" columns="3" style="margin-bottom:10px">
+
+                        <h:outputLabel for="nome" value="Nome: *" />
+                        <p:inputText id="nome" value="#{cidadeController.cidade.nomeCidade}" required="true" requiredMessage="Campo Obrigatório" size="70"/>
+                        <p:message for="nome" />
+
+
+                        <h:outputLabel for="estado" value="Estado: *" />
+                        <h:selectOneMenu id="estado" value="#{cidadeController.cidade.estado}" required="true" requiredMessage="Campo Obrigatório">
+
+                            <f:selectItem itemLabel="Selecione" itemValue=""/>
+                            <f:selectItem itemLabel="Acre" itemValue="Acre"/>
+                            <f:selectItem itemLabel="Alagoas" itemValue="Alagoas"/>
+                            <f:selectItem itemLabel="Amapá" itemValue="Amapá"/>
+                            <f:selectItem itemLabel="Amazonas" itemValue="Amazonas"/>
+                            <f:selectItem itemLabel="Bahia" itemValue="Bahia"/>
+                            <f:selectItem itemLabel="Ceará" itemValue="Ceará"/>
+                            <f:selectItem itemLabel="Distrito Federal" itemValue="Distrito Federal"/>
+                            <f:selectItem itemLabel="Espírito Santo" itemValue="Espírito Santo"/>
+                            <f:selectItem itemLabel="Goías" itemValue="Goiás"/>
+                            <f:selectItem itemLabel="Maranhã" itemValue="Maranhão"/>
+                            <f:selectItem itemLabel="Mato Grosso" itemValue="Mato Grosso"/>
+                            <f:selectItem itemLabel="Mato Grosso do Sul" itemValue="Mato Grosso do Sul"/>
+                            <f:selectItem itemLabel="Minas Gerais" itemValue="Minas Gerais"/>
+                            <f:selectItem itemLabel="Pará" itemValue="Pará"/>
+                            <f:selectItem itemLabel="Paraíba" itemValue="Paraíba"/>
+                            <f:selectItem itemLabel="Paraná" itemValue="Paraná"/>
+                            <f:selectItem itemLabel="Pernambuco" itemValue="Pernambuco"/>
+                            <f:selectItem itemLabel="Piauí" itemValue="Piauí"/>
+                            <f:selectItem itemLabel="Rio de Janeiro" itemValue="Rio de Janeiro"/>
+                            <f:selectItem itemLabel="Rio Grande do Norte" itemValue="Rio Grande do Norte"/>
+                            <f:selectItem itemLabel="Rio Grande do Sul" itemValue="Rio Grande do Sul"/>
+                            <f:selectItem itemLabel="Rondônia" itemValue="Rondônia"/>
+                            <f:selectItem itemLabel="Roraima" itemValue="Roraima"/>
+                            <f:selectItem itemLabel="Santa Catarina" itemValue="Santa Catarina"/>
+                            <f:selectItem itemLabel="São Paulo" itemValue="São Paulo"/>
+                            <f:selectItem itemLabel="Sergipe" itemValue="Sergipe"/>
+                            <f:selectItem itemLabel="Tocantins" itemValue="Tocantins"/>
+
+
+                        </h:selectOneMenu>
+
+                        <p:message for="estado" />
+
+
+
+                    </h:panelGrid>
+
+                    <p:commandLink actionListener="#{cidadeController.salvarCidade}" action="listaCidade" ajax="false" >
+                        <p:graphicImage value="/css/imagens/Salvar_1.png"/>
+                    </p:commandLink>
+                    <p:commandLink action="listaCidade" immediate="true" ajax="false" >
+                        <p:graphicImage value="/css/imagens/cancelar.png"/>
+                    </p:commandLink>
+                </h:form>
+
+            </p:panel>
+
+        </div>
+        <div id="menuDireito" >
+
+
+        </div >
+
+        <div id="rodape" >
+
+
+        </div>
+
+
+
+
+    </h:body>
+</html>

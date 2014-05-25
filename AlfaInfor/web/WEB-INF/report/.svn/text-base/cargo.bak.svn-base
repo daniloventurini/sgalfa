@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="cargo"
+
+		 language="groovy"		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="20"
+		 rightMargin="20"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<style 
+		name="Title"
+		isDefault="false"
+		fontName="Arial"
+		fontSize="26"
+		isBold="true"
+		pdfFontName="Helvetica-Bold"
+	>
+	</style>
+	<style 
+		name="SubTitle"
+		isDefault="false"
+		forecolor="#666666"
+		fontName="Arial"
+		fontSize="18"
+	>
+	</style>
+	<style 
+		name="Column header"
+		isDefault="false"
+		forecolor="#666666"
+		fontName="Arial"
+		fontSize="12"
+		isBold="true"
+	>
+	</style>
+	<style 
+		name="Detail"
+		isDefault="false"
+		fontName="Arial"
+		fontSize="12"
+	>
+	</style>
+
+	<queryString language="SQL"><![CDATA[SELECT
+     cargo.`nome` AS cargo_nome
+FROM
+     `cargo` cargo]]></queryString>
+
+	<field name="cargo_nome" class="java.lang.String"/>
+
+	<variable name="dataCorrente" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<initialValueExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format(new Date())]]></initialValueExpression>
+	</variable>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="110"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						style="SubTitle"
+						x="198"
+						y="88"
+						width="200"
+						height="22"
+						key="staticText"/>
+					<box></box>
+					<textElement textAlignment="Justified">
+						<font/>
+					</textElement>
+				<text><![CDATA[Relatório de Cargos]]></text>
+				</staticText>
+				<image  evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="153"
+						height="105"
+						key="image"/>
+					<box></box>
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.lang.String"><![CDATA["D:\\logoalfa cópia.jpg"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement
+						x="153"
+						y="16"
+						width="334"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font size="15"/>
+					</textElement>
+				<text><![CDATA[Rua Duque de Caxias, 819     Terra Rica - PR]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="153"
+						y="56"
+						width="387"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font size="15"/>
+					</textElement>
+				<text><![CDATA[CNPJ:03.952.767.0001/09      IE:902.17001-40]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="68"
+						y="36"
+						width="487"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font size="15"/>
+					</textElement>
+				<text><![CDATA[                    Fone: (44) 3441-1313              E-mail: alfainfor@terrarica.net]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="433"
+						y="78"
+						width="115"
+						height="14"
+						key="textField-1"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Total de Registros:" + $V{REPORT_COUNT}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="433"
+						y="92"
+						width="39"
+						height="18"
+						key="staticText-1"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Data:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="461"
+						y="90"
+						width="87"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{dataCorrente}]]></textFieldExpression>
+				</textField>
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="36"  isSplitAllowed="true" >
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="35"
+						width="555"
+						height="1"
+						key="line"
+						positionType="FixRelativeToBottom"/>
+					<graphicElement stretchType="NoStretch">
+					<pen lineWidth="0.5" lineColor="#999999"/>
+</graphicElement>
+				</line>
+				<staticText>
+					<reportElement
+						style="Column header"
+						x="0"
+						y="19"
+						width="555"
+						height="15"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Nome:]]></text>
+				</staticText>
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="16"  isSplitAllowed="true" >
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="15"
+						width="555"
+						height="1"
+						key="line"
+						positionType="FixRelativeToBottom"/>
+					<graphicElement stretchType="NoStretch">
+					<pen lineWidth="0.5" lineColor="#999999"/>
+</graphicElement>
+				</line>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Detail"
+						x="0"
+						y="0"
+						width="555"
+						height="15"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{cargo_nome}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="45"  isSplitAllowed="true" >
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="3"
+						width="555"
+						height="1"
+						key="line"
+						positionType="FixRelativeToBottom"/>
+					<graphicElement stretchType="NoStretch">
+					<pen lineWidth="0.5" lineColor="#999999"/>
+</graphicElement>
+				</line>
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="20"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Column header"
+						x="433"
+						y="0"
+						width="80"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font size="10" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Column header"
+						x="513"
+						y="0"
+						width="40"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font size="10" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="EEEEE dd MMMMM yyyy" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="Column header"
+						x="0"
+						y="0"
+						width="197"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font size="10" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

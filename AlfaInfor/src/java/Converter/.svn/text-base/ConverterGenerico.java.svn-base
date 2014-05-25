@@ -1,0 +1,35 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package Converter;
+
+import Dao.AbstractFacade;
+import Model.Grupo;
+
+import java.io.Serializable;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+
+
+public class ConverterGenerico implements Converter, Serializable{
+
+    private AbstractFacade dao;
+
+    public ConverterGenerico(AbstractFacade dao) {
+        this.dao = dao;
+    }
+
+    public Object getAsObject(FacesContext context, UIComponent component, String value) {
+        return dao.find(Long.parseLong(value));
+    }
+
+    public String getAsString(FacesContext context, UIComponent component, Object value) {
+       
+        return String.valueOf(value);
+    }
+
+
+}

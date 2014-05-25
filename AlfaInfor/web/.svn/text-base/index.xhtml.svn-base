@@ -1,0 +1,69 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layout.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalhoIndex" >
+            
+        </div>
+        <div id="menuCabecalho" style="text-align: right">
+
+            <center> <h:form>   <p:menuButton value="Bem Vindo: #{usuarioController.usuario.login}">
+                    <p:menuitem> 
+                        <h:outputLink value="#{facesContext.externalContext.requestContextPath}/logout">
+                        <h:outputText value="Sair"/>
+                        </h:outputLink>
+                        
+                    </p:menuitem>
+                </p:menuButton>
+
+            </h:form>
+
+            </center>
+
+
+                
+           
+
+
+      <oi:include src="menu.xhtml"/>
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+            <h:form id="backupmessage">
+            <center> <p:message id="backup" for="backup"/></center>
+            </h:form>
+
+            <center><h:outputText value="" style="font-size: 26pt" /></center>
+            <center>   <p:graphicImage url="/css/imagens/logoalfa.png" style="width: 100%; height: 100%" /> </center>
+
+        </div>
+        <div id="menuDireito" >
+
+
+        </div >
+
+        <div id="rodape" >
+
+
+        </div>
+
+
+
+    </h:body>
+</html>
+

@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layout.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalho" >
+
+        </div>
+        <div id="menuCabecalho">
+            <oi:include src="/menu.xhtml"/>
+
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+            <center><p:graphicText value="Relatório de Contas a Receber" fontSize="33" fontName="Verdana" fontStyle="italic" /></center>
+            <p:panel header="Relatório de Contas a Receber por Cliente">
+                <center> <h:form>
+                          <h:panelGrid id="infosRel" columns="3" style="margin-bottom:10px">
+                        <h:outputLabel id="cliente" for="cliente" value="Cliente:" />
+                        <p:inputText id="filtro" value="#{contasReceberController.filtro}" size="50"/>
+                        <p:message for="cliente"/>
+                        <h:outputLabel for="status" value="Status:" />
+                        <h:selectOneMenu id="status" value="#{contasReceberController.status}">
+                            <f:selectItem itemLabel="Selecione" itemDisabled="true"/>
+                            <f:selectItem itemLabel="Ativo" itemValue="Ativo"/>
+                            <f:selectItem itemLabel="Liquidado" itemValue="Liquidado"/>
+                            <f:selectItem itemLabel="Cheque" itemValue="Liquidado/Cheque"/>
+                            <f:selectItem itemLabel="Boleto" itemValue="Ativo/Boleto"/>
+                            <f:selectItem itemLabel="Estornada" itemValue="Estornada"/>
+                        </h:selectOneMenu>
+                        <p:message for="status"/>
+                          </h:panelGrid>
+
+
+
+                        <p:commandLink actionListener="#{contasReceberController.imprimeRelatorioClienteStatus}"  ajax="false" >
+                            <p:graphicImage value="/css/imagens/imprimir.png"/>
+                        </p:commandLink>
+                        <p:commandLink action="/index.jsf" immediate="true" ajax="false" >
+                            <p:graphicImage value="/css/imagens/cancelar.png"/>
+                        </p:commandLink>
+
+
+
+                    </h:form></center>
+            </p:panel>
+
+        </div>
+        <div id="menuDireito" >
+
+
+        </div >
+
+        <div id="rodape" >
+
+
+        </div>
+
+
+
+
+
+    </h:body>
+</html>

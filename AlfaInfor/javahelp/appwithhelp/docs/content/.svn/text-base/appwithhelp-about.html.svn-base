@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>Backup</title>
+        <link rel="stylesheet" href="nbdocs:/org/netbeans/modules/usersguide/ide.css" type="text/css">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <h2>Backup</h2>
+        <p>
+          - O backup será gerado em um arquivo de texto na extensão<br/>
+           .sql no diretório C:/backup/nomedoarquivo.sql.
+          - Para restaura-lo contate o suporte.
+             
+        </p>
+    </body>
+</html>
+

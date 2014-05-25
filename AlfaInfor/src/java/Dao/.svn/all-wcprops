@@ -1,0 +1,185 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao
+END
+ContasReceberFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/ContasReceberFacade.java
+END
+AtendimentoFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/AtendimentoFacade.java
+END
+DaoGenerico.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/DaoGenerico.java
+END
+EmprestimoFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/EmprestimoFacade.java
+END
+UsuarioFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/UsuarioFacade.java
+END
+PessoaJuridicaFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/PessoaJuridicaFacade.java
+END
+AlunoFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/AlunoFacade.java
+END
+LaudoFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/LaudoFacade.java
+END
+TelefoneFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/TelefoneFacade.java
+END
+VendaPlanoFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/VendaPlanoFacade.java
+END
+EmpresaFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/EmpresaFacade.java
+END
+GrupoFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/GrupoFacade.java
+END
+PessoaFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/PessoaFacade.java
+END
+PlanoFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/PlanoFacade.java
+END
+CidadeFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/CidadeFacade.java
+END
+ContasPagarFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/ContasPagarFacade.java
+END
+AbstractFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/AbstractFacade.java
+END
+CursosMatriculadosFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/CursosMatriculadosFacade.java
+END
+DuvidaFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/DuvidaFacade.java
+END
+EquipamentoFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/EquipamentoFacade.java
+END
+CompraFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/CompraFacade.java
+END
+MatriculaFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/MatriculaFacade.java
+END
+PessoaFisicaFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/PessoaFisicaFacade.java
+END
+ItensCompraFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/ItensCompraFacade.java
+END
+ItensVendaFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/ItensVendaFacade.java
+END
+CargoFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/CargoFacade.java
+END
+CursoFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/CursoFacade.java
+END
+VendaFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/VendaFacade.java
+END
+FuncionarioFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/FuncionarioFacade.java
+END
+ProdutoFacade.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/daniloventurini/AlfaInfor/svn/!svn/ver/2/AlfaInfor/src/java/Dao/ProdutoFacade.java
+END

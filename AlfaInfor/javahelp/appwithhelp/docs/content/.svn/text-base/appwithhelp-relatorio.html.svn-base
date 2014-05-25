@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <title>Relatórios</title>
+        <link rel="stylesheet" href="nbdocs:/org/netbeans/modules/usersguide/ide.css" type="text/css">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <h2>Relatórios</h2>
+        <p>
+        - Já possuem filtros padrões<br/>
+        - Podem ser filtrados por cliente e data.<br/>
+        </p>
+        <p><a href="appwithhelp-about.html">Voltar para o início</a></p>
+    </body>
+</html>

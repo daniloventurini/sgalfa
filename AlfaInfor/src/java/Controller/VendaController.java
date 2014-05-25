@@ -1,0 +1,1045 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Controller;
+
+import Converter.ConverterGenerico;
+import Converter.ConverterGenerico1;
+import Dao.ContasPagarFacade;
+import Dao.ContasReceberFacade;
+import Dao.FuncionarioFacade;
+import Dao.ItensVendaFacade;
+import Dao.PessoaFacade;
+import Dao.ProdutoFacade;
+import Dao.VendaFacade;
+import Model.Cheque;
+import Model.ContasPagar;
+import Model.ContasReceber;
+import Model.Funcionario;
+import Model.ItensVenda;
+import Model.Pessoa;
+import Model.Produto;
+import Model.Usuario;
+import Model.Venda;
+import Utils.Conexao;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+import javax.faces.event.ActionEvent;
+import javax.faces.model.DataModel;
+import javax.faces.model.ListDataModel;
+import javax.faces.model.SelectItem;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import org.primefaces.context.RequestContext;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+
+/**
+ *
+ *
+ */
+@ManagedBean
+@SessionScoped
+public class VendaController implements Serializable {
+
+    private Venda venda;
+    private ItensVenda itensVenda;
+    private Produto produto;
+    private Pessoa pessoa;
+    private Funcionario funcionario;
+    private DataModel listaVendas;
+    private DataModel listaItens;
+    private DataModel listaContas;
+    private DataModel listarCheques;
+    private Boolean travaVenda;
+    private Cheque cheque;
+    @EJB
+    private VendaFacade dao;
+    @EJB
+    private ItensVendaFacade intensdao;
+    @EJB
+    private ProdutoFacade produtodao;
+    @EJB
+    private ContasReceberFacade contasdao;
+    @EJB
+    private FuncionarioFacade funcionariodao;
+    @EJB
+    private PessoaFacade pessoaadao;
+    @EJB
+    private ContasPagarFacade daoContasPagar;
+    private BigDecimal desconto;
+    private BigDecimal entrada;
+    private Usuario usuario;
+    private Date dtinicio;
+    private Date dtfim;
+    private ContasReceber contaCheque;
+    int qntContasPagar, qntContasReceber, qntProdutos;
+    private String filtro;
+    private String filtrofun;
+    private String status;
+
+    public String getFiltrofun() {
+        return filtrofun;
+    }
+
+    public void setFiltrofun(String filtrofun) {
+        this.filtrofun = filtrofun;
+    }
+
+    public BigDecimal getEntrada() {
+        return entrada;
+    }
+
+    public void setEntrada(BigDecimal entrada) {
+        this.entrada = entrada;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getFiltro() {
+        return filtro;
+    }
+
+    public void setFiltro(String filtro) {
+        this.filtro = filtro;
+    }
+
+    public ContasReceber getContaCheque() {
+        return contaCheque;
+    }
+
+    public void setContaCheque(ContasReceber contaCheque) {
+        this.contaCheque = contaCheque;
+    }
+
+    public ContasPagarFacade getDaoContasPagar() {
+        return daoContasPagar;
+    }
+
+    public void setDaoContasPagar(ContasPagarFacade daoContasPagar) {
+        this.daoContasPagar = daoContasPagar;
+    }
+
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
+    }
+
+    public PessoaFacade getPessoaadao() {
+        return pessoaadao;
+    }
+
+    public void setPessoaadao(PessoaFacade pessoaadao) {
+        this.pessoaadao = pessoaadao;
+    }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
+    public Cheque getCheque() {
+        return cheque;
+    }
+
+    public void setCheque(Cheque cheque) {
+        this.cheque = cheque;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Date getDtfim() {
+        return dtfim;
+    }
+
+    public void setDtfim(Date dtfim) {
+        this.dtfim = dtfim;
+    }
+
+    public Date getDtinicio() {
+        return dtinicio;
+    }
+
+    public void setDtinicio(Date dtinicio) {
+        this.dtinicio = dtinicio;
+    }
+
+    public BigDecimal getDesconto() {
+        return desconto;
+    }
+
+    public void setDesconto(BigDecimal desconto) {
+
+        this.desconto = desconto;
+    }
+
+    public FuncionarioFacade getFuncionariodao() {
+        return funcionariodao;
+    }
+
+    public void setFuncionariodao(FuncionarioFacade funcionariodao) {
+        this.funcionariodao = funcionariodao;
+
+
+
+    }
+    private Converter produtoConverter;
+    private Converter pessoaConverter;
+    private Converter funcionarioConverter;
+
+    public Converter getFuncionarioConverter() {
+        if (funcionarioConverter == null) {
+            funcionarioConverter = new ConverterGenerico(funcionariodao);
+        }
+        return funcionarioConverter;
+    }
+
+    public void setFuncionarioConverter(Converter funcionarioConverter) {
+        this.funcionarioConverter = funcionarioConverter;
+    }
+
+    public Converter getPessoaConverter() {
+        if (pessoaConverter == null) {
+            pessoaConverter = new ConverterGenerico1(pessoaadao);
+        }
+        return pessoaConverter;
+    }
+
+    public void setPessoaConverter(Converter pessoaConverter) {
+        this.pessoaConverter = pessoaConverter;
+    }
+
+    public Converter getProdutoConverter() {
+        if (produtoConverter == null) {
+            produtoConverter = new ConverterGenerico(produtodao);
+        }
+        return produtoConverter;
+    }
+
+    public void setProdutoConverter(Converter produtoConverter) {
+        this.produtoConverter = produtoConverter;
+    }
+
+    public ContasReceberFacade getContasdao() {
+        return contasdao;
+    }
+
+    public void setContasdao(ContasReceberFacade contasdao) {
+        this.contasdao = contasdao;
+    }
+
+    public ProdutoFacade getProdutodao() {
+        return produtodao;
+    }
+
+    public void setProdutodao(ProdutoFacade produtodao) {
+        this.produtodao = produtodao;
+    }
+
+    public ItensVendaFacade getIntensdao() {
+        return intensdao;
+    }
+
+    public void setIntensdao(ItensVendaFacade intensdao) {
+        this.intensdao = intensdao;
+    }
+
+    public VendaFacade getDao() {
+        return dao;
+    }
+
+    public void setDao(VendaFacade dao) {
+        this.dao = dao;
+    }
+    private ContasReceber contasReceber;
+    private String pagamento;
+
+    public ContasReceber getContasReceber() {
+        return contasReceber;
+    }
+
+    public void setContasReceber(ContasReceber contasReceber) {
+        this.contasReceber = contasReceber;
+    }
+
+    public DataModel getListarVendas() {
+        List<Venda> lista = getDao().findAll();
+        listaVendas = new ListDataModel(lista);
+        return listaVendas;
+    }
+
+    public List<Cheque> getListarCheques() {
+        //   return new ListDataModel(cheques);
+        return contaCheque.getCheques();
+
+
+    }
+
+    public DataModel getListarContas() {
+        List<ContasReceber> lista = getVenda().getContasaReceber();
+        listaContas = new ListDataModel(lista);
+        return listaContas;
+    }
+
+    public DataModel getListarItens() {
+
+        List<ItensVenda> lista = (List<ItensVenda>) getVenda().getItensVenda();
+        listaItens = new ListDataModel(lista);
+        return listaItens;
+    }
+
+    public Boolean getTravaVenda() {
+        return travaVenda;
+    }
+
+    public void setTravaVenda(Boolean travaVenda) {
+        this.travaVenda = travaVenda;
+    }
+
+    public String getPagamento() {
+        return pagamento;
+    }
+
+    public void setPagamento(String pagamento) {
+        this.pagamento = pagamento;
+    }
+
+    public Venda getVenda() {
+        return venda;
+    }
+
+    public void setVenda(Venda venda) {
+        this.venda = venda;
+    }
+
+    public ItensVenda getItensVenda() {
+        return itensVenda;
+    }
+
+    public void setItensVenda(ItensVenda itensVenda) {
+        this.itensVenda = itensVenda;
+    }
+
+    public void prepararAdicionar() {
+        venda = new Venda();
+        itensVenda = new ItensVenda();
+        venda.setDesconto(BigDecimal.ZERO);
+        venda.setEntrada(BigDecimal.ZERO);
+        desconto = new BigDecimal(BigInteger.ZERO);
+        venda.setDataVenda(new Date());
+        venda.setPagamento("vista");
+        venda.setQntParcelas(1);
+        contaCheque = new ContasReceber();//instacia nova conta
+        contaCheque.setCheques(new ArrayList<Cheque>());//instacia lista de cheques
+        cheque = new Cheque();//instacia cheque
+        contasReceber = new ContasReceber();//instancia contas a receber
+        venda.setStatus("Ativa");
+
+
+
+    }
+
+    public void alterar(ActionEvent actionEvent) {
+        cheque = new Cheque();
+        Venda v = (Venda) actionEvent.getComponent().getAttributes().get("venda");
+        venda = dao.find(v.getId());
+        Pessoa p = venda.getPessoa();
+        travaCampos();
+        cheque = new Cheque();
+        ContasReceber cr = contasdao.find(venda.getContasaReceber().get(0).getId());//isso tah estranho
+        contaCheque = new ContasReceber();//instacia nova conta
+        contaCheque.setCheques(new ArrayList<Cheque>());//instacia lista de
+        itensVenda = new ItensVenda();
+        pessoa = getPessoaadao().find(p.getId());
+        Funcionario f = venda.getFuncionario();
+        funcionario = getFuncionariodao().find(f.getId());
+
+    }
+
+    public void excluir() {
+        try {
+            dao.remove(venda);
+
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage("tabela", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocorreu um erro na tentativa de exclusão", "O objeto possue Dependências"));
+        }
+    }
+
+    public void salvar() {
+        //mesagem se a forma de pagamento for igual a cheque e o usuário não tiver adicionado cheque
+        if (contaCheque.getCheques().isEmpty() && "Cheque".equals(venda.getPagamento())) {
+            FacesContext.getCurrentInstance().addMessage("form:gridItens", new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção", "Antes de Salvar Inclua os Cheques, ou escolha outra forma de pagamento"));
+            return;
+
+        } else if (venda.getPagamento().equals("Cheque")) {
+            venda.getContasaReceber().set(venda.getContasaReceber().indexOf(contaCheque), contaCheque);//seta a conta que tem os cheques denovo na venda para salvar
+            if (getSomaCheque().compareTo(venda.getValorTotal()) < 0) {
+                RequestContext requestContext = RequestContext.getCurrentInstance();
+                FacesContext.getCurrentInstance().addMessage("form:gridItens", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Atenção", "O total do(s) Cheque(s) ainda é menor que o total Geral!"));
+                return;
+            }
+        }
+
+        PegaUsuario();
+
+//        //pega o usuário logado
+//        usuario = new Usuario();
+//        SecurityContext context = SecurityContextHolder.getContext();
+//        if (context instanceof SecurityContext) {
+//            Authentication authentication = context.getAuthentication();
+//            if (authentication instanceof Authentication) {
+//                usuario.setLogin(((User) authentication.getPrincipal()).getUsername());
+//                venda.setUsuario(usuario.getLogin());
+//            }
+//        }
+        //---------------------------------Mexi aki-----------------------------------------
+
+        try {
+            for (ItensVenda it : venda.getItensVenda()) {
+                produto = it.getProduto();
+                produto.setQnt(produto.getQnt() - it.getQuantidade());
+                produtodao.save(produto);
+
+            }
+            dao.save(venda);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("listaVenda.jsf");
+            RequestContext requestContext = RequestContext.getCurrentInstance();
+            FacesContext.getCurrentInstance().addMessage("tabela", new FacesMessage(FacesMessage.SEVERITY_INFO, "VENDA CADASTRADA/ALTERADA COM SUCESSO", "VENDA CADASTRADA/ALTERADA COM SUCESSO"));
+
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage("form:gridItens",
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ops!", "Ocorreu um erro inesperado!"));
+
+        }
+
+    }
+
+    public static Date addDias(Date date, int dias) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, dias);
+
+        return calendar.getTime();
+
+    }
+
+    public void PegaUsuario() {
+        //  pega o usuário logado
+        usuario = new Usuario();
+        SecurityContext context = SecurityContextHolder.getContext();
+        if (context instanceof SecurityContext) {
+            Authentication authentication = context.getAuthentication();
+            if (authentication instanceof Authentication) {
+                usuario.setLogin(((User) authentication.getPrincipal()).getUsername());
+                venda.setUsuario(usuario.getLogin());
+
+            }
+        }
+    }
+
+    public void addItens() {
+
+        produto = itensVenda.getProduto();
+        if (itensVenda != null) {
+            System.out.print("aki tah");
+            if (produto.getQnt() >= itensVenda.getQuantidade()) {
+                System.out.print("ta entrando aki");
+                itensVenda.setProduto(produto);
+                itensVenda.setVenda(venda);
+                itensVenda.setValor(itensVenda.getProduto().getValor());
+                itensVenda.setTotal();
+                venda.getItensVenda().add(itensVenda);
+
+                itensVenda = new ItensVenda();
+                produto = new Produto();
+
+            } else {
+                //valida se a quantidade seleciona de produtos esta suficiente no estoque
+
+                FacesContext.getCurrentInstance().addMessage("form:gridItens", new FacesMessage(FacesMessage.SEVERITY_ERROR, "A Quantidade selecionada não corresponde a o presente no estoque: ", "A Quantidade selecionada não corresponde a o presente no estoque:" + produto.getQnt() + " " + "Somente!"));
+
+            }
+        } else {
+            // valida se a pessoa selecionou algum produto
+            FacesContext.getCurrentInstance().addMessage("form:gridItens", new FacesMessage(FacesMessage.SEVERITY_INFO, "Atenção!", "Selecione um Produto."));
+        }
+
+    }
+
+    public void calcular() {
+        getDoscontoVenda();
+        getEntradaVenda();
+        addConta();
+
+    }
+
+    public void selecionaIten(ActionEvent e) {
+        setItensVenda((ItensVenda) e.getComponent().getAttributes().get("itens"));
+    }
+
+    public void excluirItens(ActionEvent event) {
+        try {
+            venda.getItensVenda().remove(itensVenda);
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage("tabela", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocorreu um erro na tentativa de exclusão", "O objeto possue Dependências"));
+        }
+    }
+
+    public BigDecimal getTotalGeral() {
+        BigDecimal totalGeral = new BigDecimal(0);
+        for (Iterator<ItensVenda> it = venda.getItensVenda().iterator(); it.hasNext();) {
+            ItensVenda itens = it.next();
+            totalGeral = totalGeral.add(itens.getTotal());
+        }
+        return totalGeral;
+    }
+
+    public void getDoscontoVenda() {
+        desconto = getTotalGeral().subtract(venda.getDesconto());
+        venda.setValorTotal(desconto);
+    }
+
+    public void getEntradaVenda() {
+        entrada = venda.getValorTotal().subtract(venda.getEntrada());
+        venda.setValorTotal(entrada);
+
+    }
+
+    public void addConta() {
+        int parcelar = venda.getQntParcelas();
+        BigDecimal valorParcelado = new BigDecimal(BigInteger.ZERO);
+        valorParcelado = venda.getValorTotal().divide(new BigDecimal(venda.getQntParcelas().toString()), BigDecimal.ROUND_UP);
+        List<ContasReceber> lista = new ArrayList<ContasReceber>();
+        Date datavencimento = venda.getDataVenda();
+        if (venda.getPagamento().equals("prazo")) {
+            for (int i = 1; i <= parcelar; i++) {
+                datavencimento = addDias(datavencimento, 30);
+                ContasReceber c = new ContasReceber();
+                c.setNumeroParcelas(String.valueOf(i) + "/" + String.valueOf(venda.getQntParcelas()));
+                c.setDataConta(venda.getDataVenda());
+                c.setPessoa(venda.getPessoa());
+                c.setDataPagamento(datavencimento);
+                c.setValor(valorParcelado);
+                c.setStatus("Ativo");
+                PegaUsuario();
+                c.setUsuario(venda.getUsuario());
+                lista.add(c);
+            }
+
+
+            if (valorParcelado.multiply(new BigDecimal(parcelar)) != venda.getValorTotal()) {
+                BigDecimal diferenca = valorParcelado.multiply(new BigDecimal(venda.getQntParcelas())).subtract(venda.getValorTotal());
+                ContasReceber c = lista.get(lista.size() - 1);
+                BigDecimal multiplicado = valorParcelado.multiply(new BigDecimal(parcelar));
+
+                if (multiplicado.compareTo(venda.getValorTotal()) > 0) {
+                    c.setValor(c.getValor().add(diferenca));
+
+
+                } else if (multiplicado.compareTo(venda.getValorTotal()) < 0) {
+                    c.setValor(c.getValor().subtract(diferenca));
+
+                }
+
+            }
+        }
+        if (venda.getPagamento().equals("vista")) {
+            ContasReceber c = new ContasReceber();
+            c.setNumeroParcelas(" 1/1 ");
+            c.setDataConta(venda.getDataVenda());
+            c.setPessoa(venda.getPessoa());
+            c.setDataPagamento(datavencimento);
+            c.setValor(valorParcelado);
+            c.setStatus("Liquidado");
+            PegaUsuario();
+            c.setUsuario(venda.getUsuario());
+            lista.add(c);
+            venda.setQntParcelas(1);
+
+
+        }
+        if (venda.getPagamento().equals("Cheque")) {
+            ContasReceber c = new ContasReceber();
+            c.setNumeroParcelas(" 1/1 ");
+            c.setDataConta(venda.getDataVenda());
+            c.setPessoa(venda.getPessoa());
+            c.setDataPagamento(datavencimento);
+            c.setValor(valorParcelado);
+            c.setStatus("Liquidado/Cheque");
+            PegaUsuario();
+            c.setUsuario(venda.getUsuario());
+            lista.add(c);
+            venda.setQntParcelas(1);
+        }
+        if (venda.getPagamento().equals("Boleto")) {
+            for (int i = 1; i <= parcelar; i++) {
+                datavencimento = addDias(datavencimento, 30);
+                ContasReceber c = new ContasReceber();
+                c.setNumeroParcelas(String.valueOf(i) + "/" + String.valueOf(venda.getQntParcelas()));
+                c.setDataConta(venda.getDataVenda());
+                c.setPessoa(venda.getPessoa());
+                c.setDataPagamento(datavencimento);
+                c.setValor(valorParcelado);
+                c.setStatus("Ativo/Boleto");
+                PegaUsuario();
+                c.setUsuario(venda.getUsuario());
+                lista.add(c);
+            }
+            if (valorParcelado.multiply(new BigDecimal(parcelar)) != venda.getValorTotal()) {
+                BigDecimal diferenca = valorParcelado.multiply(new BigDecimal(venda.getQntParcelas())).subtract(venda.getValorTotal());
+                ContasReceber c = lista.get(lista.size() - 1);
+                BigDecimal multiplicado = valorParcelado.multiply(new BigDecimal(parcelar));
+                if (multiplicado.compareTo(venda.getValorTotal()) > 0) {
+                    c.setValor(c.getValor().add(diferenca));
+                } else if (multiplicado.compareTo(venda.getValorTotal()) < 0) {
+                    c.setValor(c.getValor().subtract(diferenca));
+                }
+            }
+        }
+        if (venda.getEntrada().compareTo(new BigDecimal(BigInteger.ZERO)) > 0) {
+            ContasReceber c = new ContasReceber();
+            c.setNumeroParcelas("Entrada");
+            c.setDataConta(venda.getDataVenda());
+            c.setPessoa(venda.getPessoa());
+            c.setDataPagamento(venda.getDataVenda());
+            c.setValor(venda.getEntrada());
+            c.setStatus("Liquidado");
+            PegaUsuario();
+            c.setUsuario(venda.getUsuario());
+            lista.add(c);
+        }
+
+        venda.setContasaReceber(lista);
+    }
+
+    public List<SelectItem> getPessoas() {
+        List<SelectItem> toReturn = new LinkedList<SelectItem>();
+        for (Pessoa object : pessoaadao.findAll()) {
+            toReturn.add(new SelectItem(object, object.getNome()));
+        }
+        return toReturn;
+
+
+    }
+
+    public List<SelectItem> getProdutos() {
+        List<SelectItem> toReturn = new LinkedList<SelectItem>();
+        for (Produto object : produtodao.findAll()) {
+            toReturn.add(new SelectItem(object, object.getNomeProduto()));
+
+
+        }
+        return toReturn;
+
+
+    }
+
+    public List<SelectItem> getFuncionarios() {
+        List<SelectItem> toReturn = new LinkedList<SelectItem>();
+        for (Funcionario object : funcionariodao.findAll()) {
+            toReturn.add(new SelectItem(object, object.getNome()));
+        }
+        return toReturn;
+    }
+
+    public void travaCampos() {
+        travaVenda = false;
+
+
+        if (venda.getPagamento().equals("vista")) {
+            travaVenda = false;
+            venda.setQntParcelas(1);
+
+
+
+        } else if (venda.getPagamento().equals("prazo")) {
+            travaVenda = true;
+
+
+
+        } else if (venda.getPagamento().equals("Cheque")) {
+            travaVenda = false;
+            venda.setQntParcelas(1);
+
+
+
+        } else if (venda.getPagamento().equals("Boleto")) {
+            travaVenda = true;
+
+
+
+        }
+
+    }
+
+    public List<Pessoa> completaPessoa(String parte) {
+        return pessoaadao.listaFiltrando(parte, "nome");
+
+
+    }
+
+    public void adcionaCheque() {
+        cheque.setContasReceber(contaCheque);
+        contaCheque.getCheques().add(cheque);
+        cheque = new Cheque();
+        System.out.println("Ta entrado no add---------------------------------");
+
+
+    }
+
+    public BigDecimal getSomaCheque() {
+        BigDecimal totalCheques = new BigDecimal(0);
+
+
+        if (contaCheque.getCheques() != null) {
+            //quando adiciona uma nova contam os cheques não foram instaciados esse if contarna isso
+            for (Iterator<Cheque> it = contaCheque.getCheques().iterator(); it.hasNext();) {
+                Cheque itens = it.next();
+                totalCheques = totalCheques.add(itens.getValor());
+
+
+            }
+
+
+        }
+        return totalCheques;
+
+
+
+    }
+
+//    public Boolean validaCheques() {
+//
+//
+//          FacesContext.getCurrentInstance().addMessage("form:gridItens", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Atenção", "O total do(s) Cheque(s) ainda é menor que o total Geral 2!"));
+//    }
+    public void setaConta(ActionEvent e) {
+        //nesse método seta a conta qndo clica no botão cheque
+        ContasReceber c = (ContasReceber) e.getComponent().getAttributes().get("contas");
+
+
+        if (c.getId() != null) {
+            contaCheque = contasdao.find(c.getId());
+            System.out.println("ContaCheque: " + contaCheque);
+
+
+        } else {
+            //quando é uma conta nova ainda não tem id, por isso o else para não busca o banco. tendo em vista que ainda não foi gravada
+            contaCheque = c;
+            System.out.println("ContaCheque: " + contaCheque);
+
+
+            if (contaCheque.getCheques() == null) {
+                contaCheque.setCheques(new ArrayList<Cheque>());
+
+
+            }
+        }
+
+    }
+
+    public void selecionaCheque(ActionEvent e) {
+        setCheque((Cheque) e.getComponent().getAttributes().get("cheque"));
+
+
+    }
+
+    public void removecheque() {
+        cheque.setContasReceber(contaCheque);
+        contaCheque.getCheques().remove(cheque);
+
+
+
+    }
+
+    public void chamaMetodo() {
+        addConta();
+
+
+    }
+
+    public void validaEstorno() {
+        try {
+
+            for (ContasReceber cr : venda.getContasaReceber()) {
+                if (cr.getStatus().equals("Liquidado")) {
+                    ContasPagar cp = new ContasPagar();
+                    cp.setValor(cr.getValor());
+                    cp.setDataConta(cr.getDataConta());
+                    cp.setDataPagamento(cr.getDataPagamento());
+                    cp.setNumeroParcelas(cr.getNumeroParcelas());
+                    cp.setPessoa(cr.getPessoa());
+                    cp.setStatus("Liquidado");
+                    PegaUsuario();
+                    cp.setUsuario(venda.getUsuario());
+                    System.out.println("Ta entrando aki -------------------------------------------");
+                    daoContasPagar.save(cp);
+                    qntContasPagar++;
+
+                }
+
+
+                if (cr.getStatus().equals("Liquidado/Cheque")) {
+                    ContasReceber conta = contasdao.find(cr.getId());
+                    ContasPagar cp = new ContasPagar();
+                    cp.setValor(conta.getValor());
+                    cp.setDataConta(conta.getDataConta());
+                    cp.setDataPagamento(conta.getDataPagamento());
+                    cp.setNumeroParcelas(conta.getNumeroParcelas());
+                    cp.setPessoa(conta.getPessoa());
+                    cp.setCheques(conta.getCheques());
+                    cp.setStatus("Liquidado/Cheque");
+                    PegaUsuario();
+                    cp.setUsuario(venda.getUsuario());
+                    daoContasPagar.save(cp);
+                    qntContasPagar++;
+
+                }
+
+
+
+                qntContasReceber++;
+                cr.setStatus("Estornada");
+                PegaUsuario();
+                cr.setUsuario(venda.getUsuario());
+                venda.getContasaReceber().set(venda.getContasaReceber().indexOf(cr), cr);//seta a posição do objeto na lista
+
+
+            }
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Atenção", "Ocorreu um erro durante o Processo!"));
+
+
+
+        }
+    }
+
+    public void estorno() {
+        qntContasPagar = 0;
+        qntContasReceber = 0;
+        venda.setStatus("Estornada");
+        validaEstorno();
+
+
+        for (ItensVenda it : venda.getItensVenda()) {
+            Produto p = new Produto();
+            p = produtodao.find(it.getProduto().getId());
+            p.setQnt(p.getQnt() + it.getQuantidade());
+            produtodao.save(p);
+
+
+        }
+//        addConta();
+        getDao().save(venda);
+        RequestContext requestContext = RequestContext.getCurrentInstance();
+        FacesContext.getCurrentInstance().addMessage("tabela", new FacesMessage(FacesMessage.SEVERITY_INFO, "VENDA ESTORNADA COM SUCESSO", "Venda estorna com Sucesso " + qntContasPagar + "Conta(s) a Pagar Gerada(s) " + qntContasReceber + "Conta(s) a Receber Alterada(s)"));
+
+
+    }
+
+    //  ----------------------------------------RELATÓRIOS------------------------------------------------------------------
+    public void imprimeRelatorio() throws IOException, SQLException {
+        ArrayList<Venda> lista = new ArrayList<Venda>();
+        lista = (ArrayList<Venda>) getDao().findAll();
+        JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(lista);
+        Conexao c = new Conexao();
+        HashMap parameters = new HashMap();
+        parameters.put("pCliente", "%" + filtro + "%");
+        parameters.put("dt_inicio", new SimpleDateFormat("yyyy/MM/dd").format(dtinicio));
+        parameters.put("dt_fim", new SimpleDateFormat("yyyy/MM/dd").format(dtfim));
+        try {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            facesContext.responseComplete();
+            ServletContext scontext = (ServletContext) facesContext.getExternalContext().getContext();
+            JasperPrint jasperPrint = JasperFillManager.fillReport(scontext.getRealPath("/WEB-INF/report/VendaCliente.jasper"), parameters, c.getConnection());
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            JRPdfExporter exporter = new JRPdfExporter();
+            exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+            exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
+            exporter.exportReport();
+            byte[] bytes = baos.toByteArray();
+            if (bytes != null && bytes.length > 0) {
+                HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+                response.setContentType("application/pdf");
+                response.setHeader("Content-disposition", "inline; filename=\"VendaCliente.pdf\"");
+                response.setContentLength(bytes.length);
+                ServletOutputStream outputStream = response.getOutputStream();
+                outputStream.write(bytes, 0, bytes.length);
+                outputStream.flush();
+                outputStream.close();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //------------------------------------VENDA DATA ----------------------------------------------------------
+    public void imprimeRelatorioFunciData() throws IOException, SQLException {
+        if (filtrofun == null) {
+            ArrayList<Venda> lista = new ArrayList<Venda>();
+            lista = (ArrayList<Venda>) getDao().findAll();
+            JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(lista);
+            Conexao c = new Conexao();
+            HashMap parameters = new HashMap();
+            parameters.put("dt_inicio", new SimpleDateFormat("yyyy/MM/dd").format(dtinicio));
+            parameters.put("dt_fim", new SimpleDateFormat("yyyy/MM/dd").format(dtfim));
+            try {
+                FacesContext facesContext = FacesContext.getCurrentInstance();
+                facesContext.responseComplete();
+                ServletContext scontext = (ServletContext) facesContext.getExternalContext().getContext();
+                JasperPrint jasperPrint = JasperFillManager.fillReport(scontext.getRealPath("/WEB-INF/report/VendaData.jasper"), parameters, c.getConnection());
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                JRPdfExporter exporter = new JRPdfExporter();
+                exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+                exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
+                exporter.exportReport();
+                byte[] bytes = baos.toByteArray();
+                if (bytes != null && bytes.length > 0) {
+                    HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+                    response.setContentType("application/pdf");
+                    response.setHeader("Content-disposition", "inline; filename=\"VendaData.pdf\"");
+                    response.setContentLength(bytes.length);
+                    ServletOutputStream outputStream = response.getOutputStream();
+                    outputStream.write(bytes, 0, bytes.length);
+                    outputStream.flush();
+                    outputStream.close();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        } else {
+
+            ArrayList<Venda> lista = new ArrayList<Venda>();
+            lista = (ArrayList<Venda>) getDao().findAll();
+            JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(lista);
+            Conexao c = new Conexao();
+            HashMap parameters = new HashMap();
+            parameters.put("pFuncionario", "%" + filtrofun + "%");
+            parameters.put("dt_inicio", new SimpleDateFormat("yyyy/MM/dd").format(dtinicio));
+            parameters.put("dt_fim", new SimpleDateFormat("yyyy/MM/dd").format(dtfim));
+            try {
+                FacesContext facesContext = FacesContext.getCurrentInstance();
+                facesContext.responseComplete();
+                ServletContext scontext = (ServletContext) facesContext.getExternalContext().getContext();
+                JasperPrint jasperPrint = JasperFillManager.fillReport(scontext.getRealPath("/WEB-INF/report/VendaFuncionarioData.jasper"), parameters, c.getConnection());
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                JRPdfExporter exporter = new JRPdfExporter();
+                exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+                exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
+                exporter.exportReport();
+                byte[] bytes = baos.toByteArray();
+                if (bytes != null && bytes.length > 0) {
+                    HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+                    response.setContentType("application/pdf");
+                    response.setHeader("Content-disposition", "inline; filename=\"VendaFuncionarioData.pdf\"");
+                    response.setContentLength(bytes.length);
+                    ServletOutputStream outputStream = response.getOutputStream();
+                    outputStream.write(bytes, 0, bytes.length);
+                    outputStream.flush();
+                    outputStream.close();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    }
+
+//    public void imprimeRelatorioGrafico() throws IOException, SQLException {
+//        ArrayList<Venda> lista = new ArrayList<Venda>();
+//        lista = (ArrayList<Venda>) getDao().findAll();
+//        JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(lista);
+//        Conexao c = new Conexao();
+//        HashMap parameters = new HashMap();
+//        parameters.put("dt_inicio", new SimpleDateFormat("yyyy/MM/dd").format(dtinicio));
+//        parameters.put("dt_fim", new SimpleDateFormat("yyyy/MM/dd").format(dtfim));
+//        try {
+//            FacesContext facesContext = FacesContext.getCurrentInstance();
+//            facesContext.responseComplete();
+//            ServletContext scontext = (ServletContext) facesContext.getExternalContext().getContext();
+//            JasperPrint jasperPrint = JasperFillManager.fillReport(scontext.getRealPath("/WEB-INF/report/testeGrafico.jasper"), parameters, c.getConnection());
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            JRPdfExporter exporter = new JRPdfExporter();
+//            exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+//            exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
+//            exporter.exportReport();
+//            byte[] bytes = baos.toByteArray();
+//            if (bytes != null && bytes.length > 0) {
+//                HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+//                response.setContentType("application/pdf");
+//                response.setHeader("Content-disposition", "inline; filename=\"testeGrafico.pdf\"");
+//                response.setContentLength(bytes.length);
+//                ServletOutputStream outputStream = response.getOutputStream();
+//                outputStream.write(bytes, 0, bytes.length);
+//                outputStream.flush();
+//                outputStream.close();
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+}
+
+
+

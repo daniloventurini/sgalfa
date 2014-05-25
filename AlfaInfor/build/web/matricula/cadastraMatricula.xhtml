@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layout.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalho" >
+
+        </div>
+        <div id="menuCabecalho">
+            <oi:include src="/menu.xhtml"/>
+
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+
+            <center><p:graphicText value="Cadastro de Matrículas" fontSize="33" fontName="Verdana" fontStyle="italic" /></center>
+            <h:form id="form">
+
+                <p:panel header="Informações">
+                    <h:panelGrid columns="3" id="grid">
+                        <h:outputLabel for="dataMatricula" value="Data: *" />
+                        <p:calendar value="#{matriculaController.matricula.dataMatricula}" navigator="true" id="dataMatricula" required="true" requiredMessage="Por favor preencha o campo Data" pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-3">
+                        </p:calendar>
+                        <p:message for="dataMatricula"/>
+                        <h:outputLabel for="status" value="Status: *" />
+                        <h:selectOneMenu id="status" value="#{matriculaController.matricula.status}"  required="true" requiredMessage="Campo Obrigatório">
+                            <f:selectItem itemLabel="Selecione" itemDisabled="true" />
+                            <f:selectItem itemLabel="Ativo" itemValue="Ativo" />
+                            <f:selectItem itemLabel="Concluído" itemValue="Concluído" />
+                        </h:selectOneMenu>
+                        <p:message for="status"/>
+                        <h:outputLabel for="aluno" value="Aluno(a): *" />
+                        <p:autoComplete widgetVar="aluno" id="aluno"  value="#{matriculaController.matricula.aluno}" completeMethod="#{matriculaController.completaPessoa}"
+                                        var="aluno" size="70" itemLabel="#{aluno.nome}   Cpf:#{aluno.cpf}" itemValue="#{aluno.id}" forceSelection="true" converter="#{matriculaController.alunoConverter}" required="true" requiredMessage="Campo Obrigatório"/>
+                        <p:message for="aluno"/>
+
+
+
+                        <h:outputLabel for="dia" value="Dias: *"  />
+                        <h:selectOneMenu id="dia" value="#{matriculaController.matricula.dia}"  required="true" requiredMessage="Campo Obrigatório">
+                            <f:selectItem itemLabel="Selecione" itemDisabled="true" />
+                            <f:selectItem itemLabel="Segunda e Quarta" itemValue="Segunda e Quarta" />
+                            <f:selectItem itemLabel="Terça e Quinta" itemValue="Terça e Quinta"/>
+                            <f:selectItem itemLabel="Sexta-feira" itemValue="Sexta-feira"/>
+                            <f:selectItem itemLabel="Sábado" itemValue="Sábado"/>
+                        </h:selectOneMenu>
+                        <p:message for="dia" />
+
+
+                        <h:outputLabel for="horario" value="Horário: *" />
+                        <p:inputMask id="horario" value="#{matriculaController.matricula.horario}" mask="Inicio: 99:99 Fim 99:99hrs" required="true" requiredMessage="Campo Obrigatório" size="25"/>
+
+
+                        <p:message for="horario" />
+
+                        <h:outputLabel for="funcionario" value="Tutor: *" />
+                        <h:selectOneMenu value="#{matriculaController.matricula.funcionario}" id="funcionario" converter="#{matriculaController.funcionarioConverter}" required="true" requiredMessage="Campo Obrigatório" >
+                            <f:selectItem itemLabel="Selecione" itemDisabled="true"/>
+                            <f:selectItems value="#{matriculaController.funcionarios}"/>
+                        </h:selectOneMenu>
+                        <p:message for="funcionario" />
+
+
+
+
+                    </h:panelGrid>
+                </p:panel>
+                <p:panel id="painelItens" header="Cursos">
+                    <h:panelGrid columns="3" id="gridItens">
+
+                        <h:outputLabel for="curso" value="Cursos: *" />
+                        <h:selectOneMenu id="curso" value="#{matriculaController.cursosmatriculados.curso}" converter="#{matriculaController.cursoConverter}">
+                            <f:selectItem itemLabel="Selecione" itemDisabled="true"/>
+                            <f:selectItems value="#{matriculaController.cursos}"/>
+
+                        </h:selectOneMenu>
+                        <p:message for="curso"/>
+
+
+
+
+
+
+
+                    </h:panelGrid>
+                    <p:commandButton value="Add" actionListener="#{matriculaController.addItens}" update="tabela"/>
+
+
+
+
+                    <p:dataTable id="tabela" var="cursosmatriculados" value="#{matriculaController.listarCursos}" style="border: 10px"  paginator="true" rows="5" emptyMessage="Cursos não encontrados!">
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Cursos"/>
+                            </f:facet>
+                            <h:outputText value="#{cursosmatriculados.curso.nome}" />
+                        </p:column>
+
+
+
+                        <p:column>
+                            <p:commandButton value="Excluir" actionListener="#{matriculaController.selecionaCurso}" oncomplete="dialogRemover.show()" immediate="true" update="painelItens" >
+                                <f:attribute name="cursosmatriculados" value="#{cursosmatriculados}"/>
+                            </p:commandButton>
+                        </p:column>
+
+                    </p:dataTable>
+
+                </p:panel>
+
+                <p:commandLink actionListener="#{matriculaController.salvar}" action="listaMatricula" ajax="false" update="grid" >
+                    <p:graphicImage value="/css/imagens/Salvar_1.png"/>
+                </p:commandLink>
+                <p:commandLink action="listaMatricula" immediate="true" ajax="false" >
+                    <p:graphicImage value="/css/imagens/cancelar.png"/>
+                </p:commandLink>
+
+
+                <p:confirmDialog header="Remover Item" message="Confirma a exclusão?" widgetVar="dialogRemover">
+
+                    <p:commandButton value="Sim" actionListener="#{matriculaController.excluirItens}" update="painelItens" oncomplete="dialogRemover.hide()" />
+                    <p:commandButton value="Não" onclick="dialogRemover.hide()" />
+
+
+                </p:confirmDialog>
+            </h:form>
+        </div>
+        <div id="menuDireito" >
+
+
+        </div >
+
+        <div id="rodape" >
+
+
+        </div>
+
+
+
+
+
+    </h:body>
+</html>

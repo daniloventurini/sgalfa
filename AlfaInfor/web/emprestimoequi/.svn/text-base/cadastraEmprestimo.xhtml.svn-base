@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layout.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalho" >
+
+        </div>
+        <div id="menuCabecalho">
+            <oi:include src="/menu.xhtml"/>
+
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+
+            <center><p:graphicText value="Cadastro de Empréstimos" fontSize="33" fontName="Verdana" fontStyle="italic" /></center>
+            <p:panel header="Dados">
+                <h:form id="form" prependId="false">
+                    <h:panelGrid id="infosPlanos" columns="3" style="margin-bottom:10px">
+
+                        <h:outputLabel for="dataempre" value="Data:" />
+                        <p:calendar value="#{emprestimoController.emprestimo.dataempre}" navigator="true" id="dataempre" required="true" requiredMessage="Campo Obrigatório" pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-3">
+                        </p:calendar>
+                        <p:message for="dataempre"/>
+
+                        <h:outputLabel for="cliente" value="Cliente: *" />
+                        <p:autoComplete widgetVar="pessoa" id="pessoa"  value="#{emprestimoController.emprestimo.pessoa}" completeMethod="#{emprestimoController.completaPessoa}"
+                                        var="pessoa" size="70" itemLabel="#{pessoa.nome} Cpf/Cnpj: #{pessoa.cpfCnpj}" itemValue="#{pessoa.id}" forceSelection="true" converter="#{emprestimoController.pessoaConverter}" required="true" requiredMessage="Campo Obrigatório">
+
+                        </p:autoComplete>
+                        <p:message for="pessoa"/>
+                        <h:outputLabel for="funcionario" value="Funcionário: *" />
+                        <h:selectOneMenu id="funcionario" value="#{emprestimoController.emprestimo.funcionario}" converter="#{emprestimoController.funcionarioConverter}" required="true" requiredMessage="Campo Obrigatório">
+                            <f:selectItem itemLabel="Selecione" itemDisabled="true"/>
+                            <f:selectItems value="#{emprestimoController.funcionarios}"/>
+
+                        </h:selectOneMenu>
+                        <p:message for="funcionario"/>
+
+                        <h:outputLabel for="equipamento" value="Equipamento: *" />
+                        <h:selectOneMenu id="equipamento" value="#{emprestimoController.emprestimo.equipamento}" converter="#{emprestimoController.equipamentoConverter}" required="true" requiredMessage="Campo Obrigatório">
+                            <f:selectItem itemLabel="Selecione" itemDisabled="true"/>
+                            <f:selectItems value="#{emprestimoController.equipamentos}"/>
+                            <p:ajax update="descricao estado" event="change"/>
+                        </h:selectOneMenu>
+                        <p:message for="equipamento"/>
+
+                        <h:outputLabel for="descricao" value="Descrição: " />
+                        <p:inputText id="descricao" value="#{emprestimoController.emprestimo.equipamento.descricao}" readonly="true" />
+                        <p:message for="descricao"/>
+
+                        <h:outputLabel for="estado" value="Status do Equipamento: " />
+                        <p:inputText id="estado" value="#{emprestimoController.emprestimo.equipamento.status}" readonly="true" />
+                        <p:message for="estado"/>
+
+                        <h:outputLabel for="status" value="Status do Empréstimo: *" />
+                        <h:selectOneMenu id="status" value="#{emprestimoController.emprestimo.status}"  required="true" requiredMessage="Campo Obrigatório">
+
+                            <f:selectItem itemLabel="Selecione" itemDisabled="true" />
+                            <f:selectItem itemLabel="Ativo" itemValue="Ativo" />
+                            <f:selectItem itemLabel="Finalizado" itemValue="Finalizado" />
+                        </h:selectOneMenu>
+                        <p:message for="status" />
+                    </h:panelGrid>
+
+                    <p:commandLink actionListener="#{emprestimoController.salvarEmprestimo}"  ajax="false" update="estado">
+                        <p:graphicImage value="/css/imagens/Salvar_1.png"/>
+                    </p:commandLink>
+                    <p:commandLink action="listaEmprestimo" immediate="true" ajax="false" >
+                        <p:graphicImage value="/css/imagens/cancelar.png"/>
+                    </p:commandLink>
+
+                </h:form>
+            </p:panel>
+
+
+        </div>
+        <div id="menuDireito" >
+
+
+        </div >
+
+        <div id="rodape" >
+
+
+        </div>
+
+
+
+
+
+    </h:body>
+</html>

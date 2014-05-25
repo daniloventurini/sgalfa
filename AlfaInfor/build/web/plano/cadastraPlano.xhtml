@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layout.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalho" >
+
+        </div>
+        <div id="menuCabecalho">
+            <oi:include src="/menu.xhtml"/>
+
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+
+            <center><p:graphicText value="Cadastro de Plano Internet" fontSize="33" fontName="Verdana" fontStyle="italic" /></center>
+            <p:panel header="Dados">
+                <h:form prependId="false">
+                    <h:panelGrid id="infosPlanos" columns="3" style="margin-bottom:10px">
+
+                        <h:outputLabel for="descricao" value="Descrição: *" />
+                        <p:inputText id="descricao" value="#{planoController.plano.descricao}" required="true" requiredMessage="Campo Obrigatório" size="70"/>
+                        <p:message for="descricao" />
+                        <h:outputLabel for="valor" value="Valor: *" />
+                        <p:inputText id="valor" value="#{planoController.plano.valor}" required="true" requiredMessage="Campo Obrigatório" >
+                            <f:convertNumber integerOnly="true" minIntegerDigits="1"  />
+                            <f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2"/>
+                        </p:inputText>
+                        <p:message for="valor"/>
+                    </h:panelGrid>
+                    <p:commandLink actionListener="#{planoController.salvarPlano}" action="listaPlano" ajax="false" >
+                        <p:graphicImage value="/css/imagens/Salvar_1.png"/>
+                    </p:commandLink>
+                    <p:commandLink action="listaPlano" immediate="true" ajax="false" >
+                        <p:graphicImage value="/css/imagens/cancelar.png"/>
+                    </p:commandLink>
+
+                </h:form>
+            </p:panel>
+
+
+        </div>
+        <div id="menuDireito" >
+
+
+        </div >
+
+        <div id="rodape" >
+
+
+        </div>
+
+
+
+
+
+    </h:body>
+</html>

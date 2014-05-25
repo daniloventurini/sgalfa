@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:oi="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Alfa Informática</title>
+        <link type="text/css" rel="stylesheet" href="css/flick/jquery-ui-1.8.9.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/AlfaInfor/css/layout.css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalho" >
+
+        </div>
+        <div id="menuCabecalho">
+
+            <oi:include src="/menu.xhtml"/>
+        </div>
+
+
+        <div id="menuEsquero" >
+
+        </div>
+        <div id="conteudo">
+
+            <center><p:graphicText value="Lista de Grupos" fontSize="33" fontName="Verdana" fontStyle="italic" /></center>
+
+            <h:form prependId="false">
+                <p:commandLink actionListener="#{grupoController.prepararAdicionarGrupo}" action="cadastraGrupo" ajax="false" >
+                    <p:graphicImage value="/css/imagens/novo.png"/>
+                </p:commandLink>
+                <p:message id="message" for="tabela"/>
+                <p:dataTable id="tabela" widgetVar="teste" var="grupo" value="#{grupoController.listarGrupos}" style="border: 10px" emptyMessage="Nenhum Registro Encontrado" rows="5" paginator="true">
+
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Busca:"/>
+                            <p:inputText id="globalFilter" onkeyup="teste.filter()" size="70"/>
+                        </p:outputPanel>
+
+
+                    </f:facet>
+                    <p:column sortBy="#{grupo.nome}" filterBy="#{grupo.nome}" >
+                        <f:facet name="header">
+                            <h:outputText value="Nome"/>
+                        </f:facet>
+                        <h:outputText value="#{grupo.nome}" />
+                    </p:column>
+                    <p:column sortBy="#{grupo.descricao}" filterBy="#{grupo.descricao}">
+                        <f:facet name="header">
+                            <h:outputText value="Descrição"/>
+                        </f:facet>
+                        <h:outputText value="#{grupo.descricao}"/>
+                    </p:column>
+
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Opções"/>
+                        </f:facet>
+                        <p:commandLink title="Alterar" actionListener="#{grupoController.prepararAlterarGrupo}"  action="cadastraGrupo" ajax="false">
+                            <p:graphicImage value="/css/imagens/altera.png"/>
+                            <f:attribute name="grupo" value="#{grupo}"/>
+                        </p:commandLink>
+
+                        <p:commandLink title="Excluir" actionListener="#{grupoController.prepararAlterarGrupo}"  update="formRemover" oncomplete="dialogRemover.show()">
+                            <p:graphicImage value="/css/imagens/delete.png"/>
+                            <f:attribute name="grupo" value="#{grupo}" />
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+
+                <p:commandLink ajax="false"  >
+                    <p:graphicImage value="/css/imagens/pdf.png"/>
+                    <p:dataExporter target="tabela" type="pdf" fileName="grupo" excludeColumns="2" encoding="Cp1254"  preProcessor="#{grupoController.preProcessPDF}" />
+
+                </p:commandLink>
+
+                <p:commandLink ajax="false" >
+                    <p:graphicImage value="/css/imagens/excel.png"/>
+                    <p:dataExporter target="tabela" type="xls" fileName="grupo" excludeColumns="2" encoding="Cp1254"   />
+
+                </p:commandLink>
+
+                <p:commandLink ajax="false"  >
+                    <p:graphicImage value="/css/imagens/csv.png"/>
+                    <p:dataExporter target="tabela" type="csv" fileName="grupo" excludeColumns="2" encoding="Cp1254"   />
+
+                </p:commandLink>
+
+                <p:commandLink ajax="false"  >
+                    <p:graphicImage value="/css/imagens/xml.png"/>
+                    <p:dataExporter target="tabela" type="xml" fileName="grupo" excludeColumns="4" encoding="Cp1254"   />
+
+                </p:commandLink>
+                <br/>
+
+                <p:commandLink actionListener="#{grupoController.prepararAdicionarGrupo}" action="cadastraGrupo" ajax="false" >
+                    <p:graphicImage value="/css/imagens/novo.png"/>
+                </p:commandLink>
+            </h:form>
+
+
+        </div>
+        <div id="menuDireito" >
+
+
+        </div >
+
+        <div id="rodape" >
+
+
+        </div>
+
+        <h:form>
+            <p:confirmDialog header="Remover Grupo" message="Confirma a exclusão?" widgetVar="dialogRemover" showEffect="bounce" hideEffect="explode" height="200">
+
+                <p:commandButton value="Sim"  actionListener="#{grupoController.excluirGrupo}" action="listaGrupo" update="tabela message" oncomplete="dialogRemover.hide()" />
+                <p:commandButton value="Não" onclick="dialogRemover.hide()" />
+
+
+            </p:confirmDialog>
+
+
+        </h:form>
+
+
+
+
+    </h:body>
+</html>

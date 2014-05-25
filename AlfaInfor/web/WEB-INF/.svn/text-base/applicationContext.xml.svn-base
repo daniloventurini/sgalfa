@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+             http://www.springframework.org/schema/beans/spring-beans.xsd
+             http://www.springframework.org/schema/security
+             http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+
+    <http auto-config="true" access-denied-page="/negado.jsf">
+        <intercept-url pattern="/index.jsf" access="ROLE_ADMIN,ROLE_USU" />
+        <intercept-url pattern="/aluno/**" access="ROLE_ADMIN,ROLE_USU" />
+        <intercept-url pattern="/atendimento/**" access="ROLE_ADMIN,ROLE_USU" />
+        <intercept-url pattern="/cargo/**" access="ROLE_ADMIN,ROLE_USU" />
+        <intercept-url pattern="/cidade/**" access="ROLE_ADMIN,ROLE_USU" />
+        <intercept-url pattern="/compra/**" access="ROLE_ADMIN,ROLE_USU" />
+        <intercept-url pattern="/contaspagar/**" access="ROLE_ADMIN,ROLE_USU" />
+        <intercept-url pattern="/contasreceber/**" access="ROLE_ADMIN,ROLE_USU" />
+        <intercept-url pattern="/curso/**" access="ROLE_ADMIN,ROLE_USU" />
+        <intercept-url pattern="/empresa/**" access="ROLE_ADMIN,ROLE_USU" />
+        <intercept-url pattern="/emprestimoequi/**" access="ROLE_ADMIN,ROLE_USU" />
+        <intercept-url pattern="/equipamento/**" access="ROLE_ADMIN,ROLE_USU" />
+        <intercept-url pattern="/funcionario/**" access="ROLE_ADMIN,ROLE_USU" />
+        <intercept-url pattern="/grupo/**" access="ROLE_ADMIN,ROLE_USU" />
+        <intercept-url pattern="/laudo/**" access="ROLE_ADMIN,ROLE_USU" />
+        <intercept-url pattern="/matricula/**" access="ROLE_ADMIN,ROLE_USU" />
+        <intercept-url pattern="/pessoa/**" access="ROLE_ADMIN,ROLE_USU" />
+        <intercept-url pattern="/pessoaJuridica/**" access="ROLE_ADMIN,ROLE_USU" />
+        <intercept-url pattern="/produto/**" access="ROLE_ADMIN,ROLE_USU" />
+        <intercept-url pattern="/usuario/**" access="ROLE_ADMIN" />
+        <intercept-url pattern="/venda/**" access="ROLE_ADMIN,ROLE_USU" />
+        <intercept-url pattern="/vendaPlano/**" access="ROLE_ADMIN,ROLE_USU" />
+        <intercept-url pattern="/plano/**" access="ROLE_ADMIN,ROLE_USU" />
+         <intercept-url pattern="/relatorios/**" access="ROLE_ADMIN" />
+
+        <form-login login-page="/login.jsf" authentication-failure-url="/login.jsf?erro=true"/>
+        <logout invalidate-session="true" logout-success-url="/index.jsf" logout-url="/logout"/>
+    </http>
+
+    <beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
+        <beans:property name="url" value="jdbc:mysql://localhost:3306/superjsf" />
+        <beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <beans:property name="username" value="root" />
+        <beans:property name="password" value="root" />
+    </beans:bean>
+
+    <authentication-manager>
+        <authentication-provider>
+            <password-encoder hash="md5"/>
+
+          
+            <jdbc-user-service data-source-ref="dataSource"
+                               users-by-username-query="SELECT login, senha, 'true' as enable FROM usuario WHERE login=?"
+                               authorities-by-username-query="SELECT login, autoridade FROM usuario WHERE login=?"
+                               />
+           
+        </authentication-provider>
+    </authentication-manager>
+
+</beans:beans>
